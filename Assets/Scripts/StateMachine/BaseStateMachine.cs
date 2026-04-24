@@ -1,0 +1,35 @@
+﻿using StateMachine.Data;
+
+namespace StateMachine
+{
+    public class BaseStateMachine : IStateMachine
+    {
+        private readonly IStateFactory _stateFactory;
+        private IExitableState _currentState;
+
+        public BaseStateMachine(IStateFactory stateFactory) => 
+            _stateFactory = stateFactory;
+
+        public void Enter<TState>() where TState : class, IState
+        {
+            var state = ChangeState<TState>();
+            state?.Enter();
+        }
+
+        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadState<TPayload>
+        {
+            var state = ChangeState<TState>();
+            state?.Enter(payload);
+        }
+
+        private TState ChangeState<TState>() where TState : class, IExitableState
+        {
+            _currentState?.Exit();
+
+           //TState state = _stateFactory.GetState<TState>();
+           // _currentState = state;
+
+            return null;
+        }
+    }
+}
