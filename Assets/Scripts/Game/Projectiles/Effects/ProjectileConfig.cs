@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TestSystem.TestProjectileLogic.Projectiles;
+using Game.Projectiles.Runtime;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic.Effects
+namespace Game.Projectiles.Effects
 {
     [CreateAssetMenu(menuName = "Game/Projectiles/Projectile Config")]
     public sealed class ProjectileConfig : ScriptableObject

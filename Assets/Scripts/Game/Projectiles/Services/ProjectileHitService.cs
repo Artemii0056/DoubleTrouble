@@ -1,8 +1,10 @@
-﻿using ShootSystem.Scripts;
-using TestSystem.TestProjectileLogic.Projectiles;
+﻿using Game.Combat;
+using Game.Combat.Services;
+using Game.Combat.Targeting;
+using Game.Projectiles.Runtime;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Projectiles.Services
 {
     public sealed class ProjectileHitService
     {

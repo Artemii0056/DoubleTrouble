@@ -1,8 +1,8 @@
-﻿using ShootSystem.Scripts;
-using TestSystem.TestProjectileLogic;
+﻿using Game.Combat;
+using Game.Combat.Targeting;
 using UnityEngine;
 
-namespace Enemy
+namespace Game.Characters.Enemy
 {
     public sealed class EnemyTarget : MonoBehaviour, ITargetable
     {

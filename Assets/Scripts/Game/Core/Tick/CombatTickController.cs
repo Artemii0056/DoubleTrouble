@@ -1,8 +1,9 @@
-﻿using TestSystem.TestProjectileLogic;
+﻿using Game.Projectiles.Services;
+using Game.Projectiles.View;
 using UnityEngine;
 using Zenject;
 
-namespace TestSystem
+namespace Game.Core.Tick
 {
     public sealed class CombatTickController : MonoBehaviour
     {

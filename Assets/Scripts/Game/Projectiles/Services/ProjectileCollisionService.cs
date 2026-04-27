@@ -1,7 +1,7 @@
-﻿using ShootSystem.Scripts;
+﻿using Game.Combat;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Projectiles.Services
 {
     public class ProjectileCollisionService
     {

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Game.Projectiles.Effects;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic.Projectiles
+namespace Game.Projectiles.Runtime
 {
     public class ProjectileRuntime
     {

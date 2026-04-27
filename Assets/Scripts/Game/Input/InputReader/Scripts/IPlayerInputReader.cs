@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Input.InputReader.Scripts
+namespace Game.Input.InputReader.Scripts
 {
     public interface IPlayerInputReader
     {

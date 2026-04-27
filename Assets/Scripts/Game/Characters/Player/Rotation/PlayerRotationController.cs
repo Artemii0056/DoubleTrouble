@@ -1,9 +1,8 @@
-﻿using Player.Scripts;
-using Rotation;
+﻿using Game.Characters.Player.Scripts;
 using UnityEngine;
 using Zenject;
 
-namespace TestSystem
+namespace Game.Characters.Player.Rotation
 {
     public class PlayerRotationController : ITickable
     {

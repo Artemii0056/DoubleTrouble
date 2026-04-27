@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Input.InputReader.Scripts
+namespace Game.Input.InputReader.Scripts
 {
     public class PlayerInputReader : IPlayerInputReader
     {

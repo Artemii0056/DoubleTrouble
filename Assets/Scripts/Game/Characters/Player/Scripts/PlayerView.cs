@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Player.Scripts
+namespace Game.Characters.Player.Scripts
 {
     public class PlayerView : MonoBehaviour, IPlayerTransform
     {

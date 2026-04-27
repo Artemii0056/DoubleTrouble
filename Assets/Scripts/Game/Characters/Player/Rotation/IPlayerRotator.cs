@@ -1,4 +1,4 @@
-﻿namespace Rotation
+﻿namespace Game.Characters.Player.Rotation
 {
     public interface IPlayerRotator
     {

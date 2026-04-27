@@ -1,11 +1,11 @@
-﻿using Input.InputReader.Scripts;
-using Movements;
-using Player.Scripts;
-using Rotation;
+﻿using Game.Characters.Player.Movements;
+using Game.Characters.Player.Rotation;
+using Game.Characters.Player.Scripts;
+using Game.Input.InputReader.Scripts;
 using UnityEngine;
 using Zenject;
 
-namespace Bootstrap
+namespace Game.Bootstrap
 {
     public class Bootstrapper : MonoBehaviour
     {

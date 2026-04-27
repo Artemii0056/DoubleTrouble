@@ -1,17 +1,20 @@
-﻿using Input.InputReader.Scripts;
-using Movements;
-using Player.Scripts;
-using ResourceLoaders.Scripts;
-using Rotation;
-using ShootSystem.Scripts;
-using StaticData.Scripts;
-using TestSystem;
-using TestSystem.TestProjectileLogic;
-using TestSystem.TestProjectileLogic.Statuses;
+﻿using Game.Characters.Player.Movements;
+using Game.Characters.Player.Rotation;
+using Game.Characters.Player.Scripts;
+using Game.Combat;
+using Game.Combat.Damage;
+using Game.Combat.Services;
+using Game.Combat.Statuses;
+using Game.Combat.Targeting;
+using Game.Infrastructure.ResourceLoaders;
+using Game.Infrastructure.StaticData;
+using Game.Input.InputReader.Scripts;
+using Game.Projectiles.Services;
+using Game.Projectiles.View;
 using UnityEngine;
 using Zenject;
 
-namespace DI
+namespace Game.Installers
 {
     public class GameInstaller : MonoInstaller
     {

@@ -1,6 +1,7 @@
-﻿using ShootSystem.Scripts;
+﻿using Game.Combat;
+using Game.Combat.Services;
 
-namespace TestSystem.TestProjectileLogic.Projectiles
+namespace Game.Projectiles.Runtime
 {
     public readonly struct ProjectileHitContext
     {

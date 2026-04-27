@@ -1,6 +1,6 @@
-﻿using TestSystem.TestProjectileLogic.Projectiles;
+﻿using Game.Projectiles.Runtime;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Projectiles.Effects
 {
     public interface IProjectileEffect
     {

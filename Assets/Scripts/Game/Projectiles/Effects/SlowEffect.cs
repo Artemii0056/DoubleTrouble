@@ -1,7 +1,7 @@
-﻿using TestSystem.TestProjectileLogic.Projectiles;
-using TestSystem.TestProjectileLogic.Statuses;
+﻿using Game.Combat.Statuses;
+using Game.Projectiles.Runtime;
 
-namespace TestSystem.TestProjectileLogic.Effects
+namespace Game.Projectiles.Effects
 {
     public sealed class SlowEffect : IProjectileEffect
     {

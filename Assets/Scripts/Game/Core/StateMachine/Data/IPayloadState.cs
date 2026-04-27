@@ -1,4 +1,4 @@
-namespace StateMachine.Data
+namespace Game.Core.StateMachine.Data
 {
     public interface IPayloadState<TPayload> : IExitableState
     {

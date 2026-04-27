@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShootSystem.Scripts
+namespace Game.Combat
 {
     public class PlayerCombatController : MonoBehaviour
     {

@@ -1,6 +1,6 @@
-﻿using StateMachine.Data;
+﻿using Game.Core.StateMachine.Data;
 
-namespace StateMachine.States
+namespace Game.Core.StateMachine.States
 {
     public class BootstrapState : IState
     {

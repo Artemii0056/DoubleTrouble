@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Movements
+namespace Game.Characters.Player.Movements
 {
     public interface IPlayerMover
     {

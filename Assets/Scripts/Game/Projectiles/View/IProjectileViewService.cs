@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TestSystem.TestProjectileLogic.Projectiles;
+using Game.Projectiles.Runtime;
 
-namespace TestSystem
+namespace Game.Projectiles.View
 {
     public interface IProjectileViewService
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TestSystem
+namespace Game.Characters.Player.Rotation
 {
     public interface IRotationTargetProvider
     {

@@ -1,6 +1,8 @@
-﻿using TestSystem.TestProjectileLogic.Statuses;
+﻿using Game.Combat.Damage;
+using Game.Combat.Statuses;
+using Game.Combat.Targeting;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Combat.Services
 {
     public sealed class CombatServices
     {

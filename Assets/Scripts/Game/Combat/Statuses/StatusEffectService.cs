@@ -1,7 +1,6 @@
-﻿using ShootSystem.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic.Statuses
+namespace Game.Combat.Statuses
 {
     public class StatusEffectService
     {

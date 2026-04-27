@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Game.Combat.Services;
+using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic.Effects
+namespace Game.Projectiles.Effects
 {
     [CreateAssetMenu(menuName = "Game/Projectiles/Effects/Magic Damage")]
     public sealed class MagicDamageEffectConfig : ProjectileEffectConfig

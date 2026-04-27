@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Game.Combat.Services;
+using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic.Effects
+namespace Game.Projectiles.Effects
 {
     [CreateAssetMenu(menuName = "Game/Projectiles/Effects/Slow")]
     public sealed class SlowEffectConfig : ProjectileEffectConfig

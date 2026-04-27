@@ -1,4 +1,4 @@
-﻿namespace TestSystem.TestProjectileLogic.Statuses
+﻿namespace Game.Combat.Statuses
 {
     public enum StatusType
     {

@@ -1,6 +1,6 @@
-﻿using StateMachine.Data;
+﻿using Game.Core.StateMachine.Data;
 
-namespace StateMachine
+namespace Game.Core.StateMachine
 {
     public class BaseStateMachine : IStateMachine
     {

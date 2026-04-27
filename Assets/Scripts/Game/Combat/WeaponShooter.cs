@@ -1,10 +1,10 @@
-﻿using TestSystem.TestProjectileLogic;
-using TestSystem.TestProjectileLogic.Effects;
-using TestSystem.TestProjectileLogic.Projectiles;
+﻿using Game.Projectiles.Effects;
+using Game.Projectiles.Runtime;
+using Game.Projectiles.Services;
 using UnityEngine;
 using Zenject;
 
-namespace ShootSystem.Scripts
+namespace Game.Combat
 {
     public class WeaponShooter : MonoBehaviour
     {

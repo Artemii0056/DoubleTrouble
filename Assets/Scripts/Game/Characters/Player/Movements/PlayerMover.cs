@@ -1,10 +1,10 @@
-﻿using Input.InputReader.Scripts;
-using Movements.Data.User;
-using StaticData.Scripts;
+﻿using Game.Characters.Player.Movements.Data.User;
+using Game.Infrastructure.StaticData;
+using Game.Input.InputReader.Scripts;
 using UnityEngine;
 using Zenject;
 
-namespace Movements
+namespace Game.Characters.Player.Movements
 {
     public class PlayerMover : IPlayerMover, ITickable
     {

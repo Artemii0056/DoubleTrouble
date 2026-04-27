@@ -1,5 +1,5 @@
 ﻿
-namespace StateMachine.Data
+namespace Game.Core.StateMachine.Data
 {
     public class LoadState : IState
     {

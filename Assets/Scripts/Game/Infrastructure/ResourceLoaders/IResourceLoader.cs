@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ResourceLoaders.Scripts
+namespace Game.Infrastructure.ResourceLoaders
 {
     public interface IResourceLoader
     {

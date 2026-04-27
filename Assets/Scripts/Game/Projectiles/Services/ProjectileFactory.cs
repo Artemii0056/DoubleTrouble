@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using TestSystem.TestProjectileLogic.Effects;
-using TestSystem.TestProjectileLogic.Projectiles;
+using Game.Combat.Services;
+using Game.Projectiles.Effects;
+using Game.Projectiles.Runtime;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Projectiles.Services
 {
     public class ProjectileFactory : IProjectileFactory
     {

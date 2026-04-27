@@ -1,8 +1,8 @@
-﻿using Movements.Data.User;
-using ResourceLoaders.Scripts;
-using Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
+﻿using Game.Characters.Player.Movements.Data.User;
+using Game.Characters.Player.Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
+using Game.Infrastructure.ResourceLoaders;
 
-namespace StaticData.Scripts
+namespace Game.Infrastructure.StaticData
 {
     public class StaticDataService : IStaticDataService
     {

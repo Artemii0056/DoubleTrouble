@@ -1,8 +1,8 @@
-﻿using Player.Scripts;
-using ShootSystem.Scripts;
+﻿using Game.Characters.Player.Scripts;
+using Game.Combat;
 using UnityEngine;
 
-namespace TestSystem
+namespace Game.Characters.Player.Rotation
 {
     public class TargetRotationProvider : IRotationTargetProvider
     {

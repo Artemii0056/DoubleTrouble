@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic.Projectiles
+namespace Game.Projectiles.Runtime
 {
     public sealed class ProjectileView : MonoBehaviour
     {

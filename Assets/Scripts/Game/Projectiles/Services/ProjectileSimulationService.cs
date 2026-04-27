@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TestSystem.TestProjectileLogic.Projectiles;
+using Game.Projectiles.Runtime;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Projectiles.Services
 {
     public sealed class ProjectileSimulationService : IProjectileSimulationService
     {

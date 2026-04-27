@@ -1,10 +1,7 @@
-﻿using Input.InputReader.Scripts;
-using Player.Scripts;
-using TestSystem;
+﻿using Game.Input.InputReader.Scripts;
 using UnityEngine;
-using Zenject;
 
-namespace Rotation
+namespace Game.Characters.Player.Rotation
 {
     public class InputRotationTargetProvider  : IRotationTargetProvider
     {

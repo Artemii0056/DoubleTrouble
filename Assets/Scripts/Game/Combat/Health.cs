@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ShootSystem
+namespace Game.Combat
 {
     public class Health
     {

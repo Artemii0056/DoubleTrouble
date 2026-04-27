@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ShootSystem.Scripts;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Combat.Targeting
 {
     public sealed class TargetSearchService
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TestSystem.TestProjectileLogic.Projectiles;
+using Game.Projectiles.Runtime;
 using UnityEngine;
 
-namespace TestSystem
+namespace Game.Projectiles.View
 {
     public sealed class ProjectileViewService : IProjectileViewService
     {

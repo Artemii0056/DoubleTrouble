@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Rotation
+namespace Game.Characters.Player.Rotation
 {
     namespace _ProjectFiles.Player.Scripts.Movements.Configs
     {

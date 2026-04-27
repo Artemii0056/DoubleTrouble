@@ -1,8 +1,7 @@
-﻿using ShootSystem.Scripts;
-using TestSystem.TestProjectileLogic.Statuses;
+﻿using Game.Combat.Statuses;
 using UnityEngine;
 
-namespace TestSystem.TestProjectileLogic
+namespace Game.Combat.Damage
 {
     public class DamageService
     {

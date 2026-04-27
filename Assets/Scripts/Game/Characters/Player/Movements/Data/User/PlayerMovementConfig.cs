@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Movements.Data.User
+namespace Game.Characters.Player.Movements.Data.User
 {
     [CreateAssetMenu(fileName = nameof(PlayerMovementConfig), menuName = "PlayerSettings/" + nameof(PlayerMovementConfig))]
     public class PlayerMovementConfig : ScriptableObject

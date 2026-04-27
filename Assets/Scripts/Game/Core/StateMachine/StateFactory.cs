@@ -1,4 +1,4 @@
-﻿namespace StateMachine
+﻿namespace Game.Core.StateMachine
 {
     public class StateFactory : IStateFactory
     {

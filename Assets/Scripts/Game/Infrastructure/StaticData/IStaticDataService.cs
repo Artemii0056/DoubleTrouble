@@ -1,7 +1,7 @@
-﻿using Movements.Data.User;
-using Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
+﻿using Game.Characters.Player.Movements.Data.User;
+using Game.Characters.Player.Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
 
-namespace StaticData.Scripts
+namespace Game.Infrastructure.StaticData
 {
     public interface IStaticDataService
     {
