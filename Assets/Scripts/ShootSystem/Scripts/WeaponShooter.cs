@@ -1,34 +1,40 @@
-﻿using ShootSystem.Scripts;
+﻿using TestSystem.TestProjectileLogic;
+using TestSystem.TestProjectileLogic.Effects;
+using TestSystem.TestProjectileLogic.Projectiles;
 using UnityEngine;
+using Zenject;
 
-public class WeaponShooter : MonoBehaviour
+namespace ShootSystem.Scripts
 {
-    [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] private Transform firePoint;
-    [SerializeField] private float fireRate = 3f;
-
-    private float _nextShotTime;
-
-    public void TryShoot(ITargetable target)
+    public class WeaponShooter : MonoBehaviour
     {
-        Debug.Log("TryShoot");
+        [SerializeField] private ProjectileConfig config;
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private float fireRate = 3f;
         
-        if (target == null)
-            return;
+        private IProjectileSpawnService _spawnService;
 
-        if (Time.time < _nextShotTime)
-            return;
+        [Inject]
+        public void Init(IProjectileSpawnService spawnService)
+        {
+            _spawnService = spawnService;
+        }
 
-        _nextShotTime = Time.time + 1f / fireRate;
+        private float _nextShotTime;
 
-        Vector3 direction = (target.AimPoint.position - firePoint.position).normalized;
+        public void TryShoot(ITargetable target)
+        {
+            if (target == null)
+                return;
 
-        Projectile projectile = Instantiate(
-            projectilePrefab,
-            firePoint.position,
-            Quaternion.LookRotation(direction)
-        );
+            if (Time.time < _nextShotTime)
+                return;
 
-        projectile.Launch(direction);
+            _nextShotTime = Time.time + 1f / fireRate;
+
+            Vector3 direction = (target.AimPoint.position - firePoint.position).normalized;
+
+           ProjectileRuntime projectile =  _spawnService.Spawn(config,1, firePoint.position, direction);
+        }
     }
 }

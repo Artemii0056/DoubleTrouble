@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257c451e70964bfe80a89bafbaae8d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap.Bootstrapper
-  _character: {fileID: 1922774778}
+  _playerView: {fileID: 1922774778}
 --- !u!4 &512946484
 Transform:
   m_ObjectHideFlags: 0
@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc1bb617ef8344218f50911e046306ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponShooter
-  projectilePrefab: {fileID: 3391648920517039476, guid: b3986b51fb1af8541a5a5376e9b16d21, type: 3}
+  config: {fileID: 11400000, guid: ac7b989eceedf1a47ab70c519bf410e5, type: 2}
   firePoint: {fileID: 1402259972}
   fireRate: 3
 --- !u!114 &1922774781
@@ -1688,6 +1688,8 @@ GameObject:
   - component: {fileID: 2083461533}
   - component: {fileID: 2083461532}
   - component: {fileID: 2083461534}
+  - component: {fileID: 2083461535}
+  - component: {fileID: 2083461536}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1754,6 +1756,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76e15d1354a49ef89953f1d1a94dfd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DI.GameInstaller
+  _playerView: {fileID: 1922774778}
+  _targetScanner: {fileID: 1922774781}
+--- !u!114 &2083461535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083461531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc1bb617ef8344218f50911e046306ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShootSystem.Scripts.WeaponShooter
+  config: {fileID: 11400000, guid: ac7b989eceedf1a47ab70c519bf410e5, type: 2}
+  firePoint: {fileID: 1402259972}
+  fireRate: 3
+--- !u!114 &2083461536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083461531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5a467b14be4178848c3abba1a15982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatTickController
 --- !u!1 &2121438031
 GameObject:
   m_ObjectHideFlags: 0

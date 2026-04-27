@@ -1,22 +1,42 @@
-﻿using System;
-using DefaultNamespace;
-using ShootSystem.Scripts;
+﻿using ShootSystem.Scripts;
+using TestSystem.TestProjectileLogic;
 using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyTarget : MonoBehaviour, ITargetable
+    public sealed class EnemyTarget : MonoBehaviour, ITargetable
     {
         [SerializeField] private Transform aimPoint;
 
-        private Health _health;
+        public int Id => gameObject.GetInstanceID();
+
+        public Vector3 Position => transform.position;
+
+        public Transform AimPoint => aimPoint != null ? aimPoint : transform;
+
+        public bool IsAlive { get; private set; } = true;
+
+        private TargetSearchService _targetSearchService;
+
+        public void Construct(TargetSearchService targetSearchService)
+        {
+            _targetSearchService = targetSearchService;
+        }
 
         private void OnEnable()
         {
-            _health = new Health();
+            _targetSearchService?.Register(this);
         }
 
-        public Transform AimPoint => aimPoint != null ? aimPoint : transform;
-        public bool IsAlive => _health.IsAlive;
+        private void OnDisable()
+        {
+            _targetSearchService?.Unregister(this);
+        }
+
+        public void Kill()
+        {
+            IsAlive = false;
+            _targetSearchService?.Unregister(this);
+        }
     }
 }

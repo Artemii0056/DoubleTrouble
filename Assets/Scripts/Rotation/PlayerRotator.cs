@@ -1,45 +1,32 @@
 ﻿using Input.InputReader.Scripts;
-using Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
-using StaticData.Scripts;
+using Player.Scripts;
+using TestSystem;
 using UnityEngine;
 using Zenject;
 
 namespace Rotation
 {
-    public class PlayerRotator : IPlayerRotator, ITickable
+    public class InputRotationTargetProvider  : IRotationTargetProvider
     {
         private readonly IPlayerInputReader _inputReader;
         
-        private float _pitch;
-
-        private Transform _playerRoot;
-
-        public PlayerRotator(IPlayerInputReader inputReader)
-        {
+        public InputRotationTargetProvider(IPlayerInputReader inputReader) => 
             _inputReader = inputReader;
-        }
 
-        public void Init(Transform playerRoot)
-        {
-            _playerRoot = playerRoot;
-        }
-
-        public void Tick()
+        public bool TryGetRotation(out Vector3 direction)
         {
             Vector2 moveInput = _inputReader.MoveValue;
 
-            Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+            direction = new Vector3(moveInput.x, 0f, moveInput.y);
 
-            if (moveDirection.sqrMagnitude > 0.001f)
+            if (direction.sqrMagnitude < 0.001f)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-
-                _playerRoot.rotation = Quaternion.Lerp(
-                    _playerRoot.rotation,
-                    targetRotation,
-                    10f * Time.deltaTime
-                );
+                direction = default;
+                return false;
             }
+
+            direction.Normalize();
+            return true;
         }
     }
 }

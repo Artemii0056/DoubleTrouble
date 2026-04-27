@@ -1,0 +1,96 @@
+﻿using ShootSystem.Scripts;
+using TestSystem.TestProjectileLogic.Projectiles;
+using UnityEngine;
+
+namespace TestSystem.TestProjectileLogic
+{
+    public sealed class ProjectileHitService
+    {
+        private const float RicochetSearchRadius = 8f;
+
+        private readonly CombatServices _combatServices;
+        private readonly TargetSearchService _targetSearch;
+
+        public ProjectileHitService(
+            CombatServices combatServices,
+            TargetSearchService targetSearch)
+        {
+            _combatServices = combatServices;
+            _targetSearch = targetSearch;
+        }
+
+        public void HandleHit(ProjectileRuntime projectile, ITargetable target)
+        {
+            if (!projectile.IsAlive)
+                return;
+
+            if (target == null || !target.IsAlive || target.AimPoint == null)
+                return;
+
+            int targetId = GetTargetId(target);
+
+            if (projectile.WasTargetHit(targetId))
+                return;
+
+            projectile.RegisterHit(targetId);
+
+            var context = new ProjectileHitContext(
+                projectile,
+                target,
+                _combatServices
+            );
+
+            foreach (var effect in projectile.Effects)
+            {
+                effect.OnHit(context);
+            }
+
+            if (TryRicochet(projectile, target))
+                return;
+
+            if (TryPierce(projectile))
+                return;
+
+            projectile.Kill();
+        }
+
+        private bool TryPierce(ProjectileRuntime projectile)
+        {
+            if (projectile.PierceLeft <= 0)
+                return false;
+
+            projectile.SpendPierce();
+            return projectile.IsAlive;
+        }
+
+        private bool TryRicochet(ProjectileRuntime projectile, ITargetable currentTarget)
+        {
+            if (projectile.RicochetLeft <= 0)
+                return false;
+
+            int currentTargetId = GetTargetId(currentTarget);
+
+            var nextTarget = _targetSearch.FindNearestExcept(
+                projectile.Position,
+                currentTargetId,
+                projectile.HitTargetIds,
+                RicochetSearchRadius
+            );
+
+            if (nextTarget == null || nextTarget.AimPoint == null)
+                return false;
+
+            Vector3 direction = nextTarget.AimPoint.position - projectile.Position;
+
+            if (direction.sqrMagnitude <= 0.001f)
+                return false;
+
+            return projectile.TryRicochet(direction);
+        }
+
+        private static int GetTargetId(ITargetable target)
+        {
+            return target.AimPoint.GetInstanceID();
+        }
+    }
+}

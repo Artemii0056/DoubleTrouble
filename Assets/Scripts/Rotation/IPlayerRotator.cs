@@ -1,10 +1,7 @@
-﻿using UnityEngine;
-
-namespace Rotation
+﻿namespace Rotation
 {
     public interface IPlayerRotator
     {
-        void Init(Transform player);
         void Tick();
     }
 }

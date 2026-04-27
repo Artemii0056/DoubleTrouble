@@ -1,48 +1,50 @@
-﻿using ShootSystem.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TargetScanner : MonoBehaviour
+namespace ShootSystem.Scripts
 {
-    [SerializeField] private float searchRadius = 8f;
-    [SerializeField] private LayerMask targetMask;
-
-    private readonly Collider[] _hits = new Collider[32];
-
-    public ITargetable FindNearestTarget(Vector3 origin)
+    public class TargetScanner : MonoBehaviour
     {
-        int count = Physics.OverlapSphereNonAlloc(
-            origin,
-            searchRadius,
-            _hits,
-            targetMask
-        );
+        [SerializeField] private float searchRadius = 8f;
+        [SerializeField] private LayerMask targetMask;
 
-        ITargetable bestTarget = null;
-        float bestDistanceSqr = float.MaxValue;
-        
-        for (int i = 0; i < count; i++)
+        private readonly Collider[] _hits = new Collider[32];
+
+        public ITargetable FindNearestTarget(Vector3 origin)
         {
-            if (!_hits[i].TryGetComponent(out ITargetable target))
-                continue;
+            int count = Physics.OverlapSphereNonAlloc(
+                origin,
+                searchRadius,
+                _hits,
+                targetMask
+            );
 
-            if (!target.IsAlive)
-                continue;
-
-            float distanceSqr = (target.AimPoint.position - origin).sqrMagnitude;
-
-            if (distanceSqr < bestDistanceSqr)
+            ITargetable bestTarget = null;
+            float bestDistanceSqr = float.MaxValue;
+        
+            for (int i = 0; i < count; i++)
             {
-                bestDistanceSqr = distanceSqr;
-                bestTarget = target;
+                if (!_hits[i].TryGetComponent(out ITargetable target))
+                    continue;
+
+                if (!target.IsAlive)
+                    continue;
+
+                float distanceSqr = (target.AimPoint.position - origin).sqrMagnitude;
+
+                if (distanceSqr < bestDistanceSqr)
+                {
+                    bestDistanceSqr = distanceSqr;
+                    bestTarget = target;
+                }
             }
+
+            return bestTarget;
         }
 
-        return bestTarget;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, searchRadius);
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, searchRadius);
+        }
     }
 }
