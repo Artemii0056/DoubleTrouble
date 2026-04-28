@@ -7,8 +7,6 @@ namespace Game.Characters.Enemy.View
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Color _deadColor;
         
-        [SerializeField] private EnemyTarget _target;
-        
         public int RuntimeId { get; private set; }
 
         public void Init(int runtimeId)
@@ -33,8 +31,6 @@ namespace Game.Characters.Enemy.View
 
         public void SetDeadVisual()
         {
-            Debug.Log("Dead Visual");
-            _target.Kill();
             _meshRenderer.material.color = _deadColor;
         }
     }

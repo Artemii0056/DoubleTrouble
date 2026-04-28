@@ -2,11 +2,9 @@
 
 namespace Game.Combat
 {
-    public interface ITargetable
+    public interface IAimTargetable
     {
         int Id { get; }
         Transform AimPoint { get; }
-        bool IsAlive { get; }
-        Vector3 Position { get; }
     }
 }

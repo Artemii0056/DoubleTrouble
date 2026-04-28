@@ -9,30 +9,29 @@ namespace Game.Characters.Player.Services
 {
     public sealed class PlayerRuntimeSyncService : IInitializable, ITickable, IDisposable
     {
-        private readonly PlayerRuntime _runtime;
+        private readonly Runtume.Player _runtime;
         private readonly PlayerView _view;
-        private readonly TargetRuntimeRegistry _targetRegistry;
-        private DamageableRuntimeRegistry _damageableRegistry;
+        private readonly TargetRuntimeStore _targetStore;
+        private readonly DamageableRuntimeStore _damageableStore;
 
         public PlayerRuntimeSyncService(
-            PlayerRuntime runtime,
+            Runtume.Player runtime,
             PlayerView view,
-            TargetRuntimeRegistry targetRegistry, 
-            DamageableRuntimeRegistry damageableRegistry)
+            TargetRuntimeStore targetStore, 
+            DamageableRuntimeStore damageableStore)
         {
             _runtime = runtime;
             _view = view;
-            _targetRegistry = targetRegistry;
-            _damageableRegistry = damageableRegistry;
+            _targetStore = targetStore;
+            _damageableStore = damageableStore;
         }
 
         public void Initialize()
         {
             _runtime.SetPosition(_view.Transform.position);
-            _targetRegistry.Register(_runtime);
+            _targetStore.Register(_runtime);
             
-            _targetRegistry.Register(_runtime);
-            _damageableRegistry.Register(_runtime);
+            _damageableStore.Register(_runtime);
         }
 
         public void Tick()
@@ -42,7 +41,8 @@ namespace Game.Characters.Player.Services
 
         public void Dispose()
         {
-            _targetRegistry.Unregister(_runtime.Id);
+            _targetStore.Unregister(_runtime.Id);
+            _damageableStore.Unregister(_runtime.Id);
         }
     }
 }

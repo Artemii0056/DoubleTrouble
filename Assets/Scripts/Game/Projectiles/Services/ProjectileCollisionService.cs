@@ -5,13 +5,13 @@ namespace Game.Projectiles.Services
 {
     public class ProjectileCollisionService
     {
-        private readonly ProjectileHitService _hitService;
+        private readonly ProjectileHitSystem _hitSystem;
         private readonly LayerMask _targetMask;
 
         public ProjectileCollisionService(
-            ProjectileHitService hitService)
+            ProjectileHitSystem hitSystem)
         {
-            _hitService = hitService;
+            _hitSystem = hitSystem;
             _targetMask = 1 << 6;
         }
 
@@ -35,10 +35,10 @@ namespace Game.Projectiles.Services
                     continue;
                 }
 
-                if (!hit.collider.TryGetComponent(out ITargetable target))
+                if (!hit.collider.TryGetComponent(out IAimTargetable target))
                     continue;
 
-                _hitService.HandleHit(projectile, target);
+                _hitSystem.HandleHit(projectile, target);
             }
         }
     }

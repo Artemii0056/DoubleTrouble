@@ -6,7 +6,7 @@ namespace Game.Characters.Enemy.Configs
     [CreateAssetMenu(fileName = nameof(EnemyConfig), menuName = "EnemySettings/" + nameof(EnemyConfig))]
     public sealed class EnemyConfig : ScriptableObject
     {
-        [field: SerializeField] public EnemyTarget Type { get; private set; }
+        [field: SerializeField] public EnemyAimTarget Type { get; private set; }
     
         [field: SerializeField] public EnemyView Prefab { get; private set; }
         [field: SerializeField] public float MaxHp { get; private set; }

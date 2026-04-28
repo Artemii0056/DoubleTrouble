@@ -22,7 +22,7 @@ namespace Game.Combat
 
         private float _nextShotTime;
 
-        public void TryShoot(ITargetable target)
+        public void TryShoot(IAimTargetable target)
         {
             if (target == null)
                 return;

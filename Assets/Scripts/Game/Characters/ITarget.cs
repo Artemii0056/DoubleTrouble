@@ -2,7 +2,7 @@
 
 namespace Game.Characters
 {
-    public interface ITargetRuntime
+    public interface ITarget
     {
         int Id { get; }
         Vector3 Position { get; }

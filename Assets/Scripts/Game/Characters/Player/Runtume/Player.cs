@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Game.Characters.Player.Runtume
 {
-    public sealed class PlayerRuntime : IDamageableRuntime
+    public sealed class Player : IDamageable
     {
         private readonly Health _health = new();
 
-        public PlayerRuntime(IGlobalServiceId idService)
+        public Player(IGlobalServiceId idService)
         {
             Id = idService.Next();
         }

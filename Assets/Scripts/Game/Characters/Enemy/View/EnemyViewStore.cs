@@ -2,7 +2,7 @@
 
 namespace Game.Characters.Enemy.View
 {
-    public sealed class EnemyViewRegistry
+    public sealed class EnemyViewStore
     {
         private readonly Dictionary<int, EnemyView> _views = new();
 

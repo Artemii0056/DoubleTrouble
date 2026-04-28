@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Combat
 {
     public class PlayerCombatController : MonoBehaviour
     {
-        [SerializeField] private TargetScanner targetScanner;
+        [FormerlySerializedAs("targetScanner")] [SerializeField] private PhysicsTargetScanner physicsTargetScanner;
         [SerializeField] private WeaponShooter weaponShooter;
         
 
-        private ITargetable _currentTarget;
+        private IAimTargetable _currentTarget;
 
         private void Update()
         {
-            _currentTarget = targetScanner.FindNearestTarget(transform.position);
+            _currentTarget = physicsTargetScanner.FindNearestTarget(transform.position);
 
             if (_currentTarget == null)
                 return;

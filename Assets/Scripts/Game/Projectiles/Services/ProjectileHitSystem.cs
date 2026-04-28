@@ -1,59 +1,45 @@
 ﻿using Game.Characters.Enemy.Services;
 using Game.Combat;
-using Game.Combat.Services;
 using Game.Combat.Targeting;
 using Game.Projectiles.Runtime;
 using UnityEngine;
 
 namespace Game.Projectiles.Services
 {
-    public sealed class ProjectileHitService
+    public sealed class ProjectileHitSystem
     {
         private const float RicochetSearchRadius = 8f;
 
-        private readonly CombatServices _combatServices;
-        private readonly TargetSearchService _targetSearch;
-        private readonly DamageableRuntimeRegistry _damageableRegistry;
+        private readonly TargetSelectionService _targetSelection;
+        private readonly DamageableRuntimeStore _damageableStore;
 
-        public ProjectileHitService(
-            CombatServices combatServices,
-            TargetSearchService targetSearch, 
-            DamageableRuntimeRegistry damageableRegistry)
+        public ProjectileHitSystem(
+            TargetSelectionService targetSelection, 
+            DamageableRuntimeStore damageableStore)
         {
-            _combatServices = combatServices;
-            _targetSearch = targetSearch;
-            _damageableRegistry = damageableRegistry;
+            _targetSelection = targetSelection;
+            _damageableStore = damageableStore;
         }
 
-        public void HandleHit(ProjectileRuntime projectile, ITargetable target)
+        public void HandleHit(ProjectileRuntime projectile, IAimTargetable target)
         {
             if (!projectile.IsAlive)
                 return;
 
-            if (target == null || !target.IsAlive || target.AimPoint == null)
+            if (target == null || target.AimPoint == null)
                 return;
 
             int targetId = GetTargetId(target);
 
-            if (projectile.WasTargetHit(targetId))
+            if (!_damageableStore.TryGet(targetId, out var damageable))
                 return;
 
-            projectile.RegisterHit(targetId);
-            
-            if (_damageableRegistry.TryGet(targetId, out var damageable))
-            {
-                damageable.TakeDamage(projectile.Damage);
-            }
-            else
-            {
-                Debug.LogWarning($"Damageable target not found. TargetId: {targetId}");
-            }
+            if (!damageable.IsAlive)
+                return;
 
             var context = new ProjectileHitContext(
                 projectile,
-                target,
-                _combatServices
-            );
+                target);
 
             foreach (var effect in projectile.Effects)
             {
@@ -78,14 +64,14 @@ namespace Game.Projectiles.Services
             return projectile.IsAlive;
         }
 
-        private bool TryRicochet(ProjectileRuntime projectile, ITargetable currentTarget)
+        private bool TryRicochet(ProjectileRuntime projectile, IAimTargetable currentTarget)
         {
             if (projectile.RicochetLeft <= 0)
                 return false;
 
             int currentTargetId = GetTargetId(currentTarget);
 
-            var nextTarget = _targetSearch.FindNearestExcept(
+            var nextTarget = _targetSelection.FindNearestExcept(
                 projectile.Position,
                 currentTargetId,
                 projectile.HitTargetIds,
@@ -103,7 +89,7 @@ namespace Game.Projectiles.Services
             return projectile.TryRicochet(direction);
         }
 
-        private static int GetTargetId(ITargetable target)
+        private static int GetTargetId(IAimTargetable target)
         {
             return target.Id;
         }

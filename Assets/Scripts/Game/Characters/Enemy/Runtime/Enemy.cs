@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Game.Characters.Enemy.Runtime
 {
-    public sealed class EnemyRuntime : IDamageableRuntime
+    public sealed class Enemy : IDamageable
     {
-        public EnemyRuntime(int id, EnemyConfig config, Vector3 position)
+        public Enemy(int id, EnemyConfig config, Vector3 position)
         {
             Id = id;
             Config = config;

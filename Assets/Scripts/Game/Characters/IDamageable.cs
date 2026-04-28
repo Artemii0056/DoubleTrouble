@@ -1,6 +1,6 @@
 ﻿namespace Game.Characters
 {
-    public interface IDamageableRuntime : ITargetRuntime
+    public interface IDamageable : ITarget
     {
         void TakeDamage(float damage);
     }

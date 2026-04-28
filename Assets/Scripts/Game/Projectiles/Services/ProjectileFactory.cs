@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Game.Combat.Services;
 using Game.Projectiles.Effects;
 using Game.Projectiles.Runtime;
 using UnityEngine;
@@ -10,13 +9,6 @@ namespace Game.Projectiles.Services
     {
         private int _nextId = 1;
 
-        private readonly CombatServices _combatServices;
-
-        // public ProjectileFactory(CombatServices combatServices)
-        // {
-        //     _combatServices = combatServices;
-        // }
-
         public ProjectileRuntime Create(
             ProjectileConfig config,
             int ownerId,
@@ -24,11 +16,6 @@ namespace Game.Projectiles.Services
             Vector3 direction)
         {
             List<IProjectileEffect> effects = new List<IProjectileEffect>();
-            
-            // foreach (var effectConfig in config.effects)
-            // {
-            //     //effects.Add(effectConfig.CreateEffect(_combatServices));
-            // }
             
             var projectile = new ProjectileRuntime(
                 _nextId++,

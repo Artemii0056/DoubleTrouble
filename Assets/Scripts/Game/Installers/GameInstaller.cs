@@ -19,6 +19,7 @@ using Game.Input.InputReader.Scripts;
 using Game.Projectiles.Services;
 using Game.Projectiles.View;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Installers
@@ -26,13 +27,13 @@ namespace Game.Installers
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private PlayerView _playerView;
-        [SerializeField] private TargetScanner _targetScanner;
+        [FormerlySerializedAs("_targetScanner")] [SerializeField] private PhysicsTargetScanner physicsTargetScanner;
 
         public override void InstallBindings()
         {
-            Container.Bind<DamageableRuntimeRegistry>().AsSingle();
+            Container.Bind<DamageableRuntimeStore>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<EnemyAttackService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyAttackSystem>().AsSingle();
             
             InfrastructureBindings();
             IdBindings();
@@ -65,7 +66,7 @@ namespace Game.Installers
                 .To<PlayerInputReader>()
                 .AsSingle();
 
-            Container.Bind<PlayerRuntime>()
+            Container.Bind<Player>()
                 .AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerRuntimeSyncService>()
@@ -86,19 +87,19 @@ namespace Game.Installers
 
         private void EnemyBindings()
         {
-            Container.Bind<TargetRuntimeRegistry>()
+            Container.Bind<TargetRuntimeStore>()
                 .AsSingle();
 
             Container.Bind<EnemyRuntimeStorage>()
                 .AsSingle();
 
-            Container.Bind<EnemyViewRegistry>()
+            Container.Bind<EnemyViewStore>()
                 .AsSingle();
 
             Container.Bind<EnemyFactory>()
                 .AsSingle();
 
-            Container.BindInterfacesAndSelfTo<EnemyChaseService>()
+            Container.BindInterfacesAndSelfTo<EnemyChaseSystem>()
                 .AsSingle();
 
             Container.BindInterfacesAndSelfTo<EnemyViewSyncService>()
@@ -107,8 +108,8 @@ namespace Game.Installers
 
         private void CombatBindings()
         {
-            Container.Bind<TargetScanner>()
-                .FromInstance(_targetScanner)
+            Container.Bind<PhysicsTargetScanner>()
+                .FromInstance(physicsTargetScanner)
                 .AsSingle();
 
             Container.Bind<WeaponShooter>()
@@ -118,7 +119,7 @@ namespace Game.Installers
             Container.Bind<CombatServices>()
                 .AsTransient();
 
-            Container.Bind<TargetSearchService>()
+            Container.Bind<TargetSelectionService>()
                 .AsSingle();
 
             Container.Bind<StatusEffectService>()
@@ -127,7 +128,7 @@ namespace Game.Installers
             Container.Bind<DamageService>()
                 .AsSingle();
 
-            Container.Bind<ProjectileHitService>()
+            Container.Bind<ProjectileHitSystem>()
                 .AsSingle();
 
             Container.Bind<ProjectileCollisionService>()

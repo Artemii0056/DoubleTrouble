@@ -6,10 +6,10 @@ namespace Game.Characters.Player.Rotation
 {
     public class TargetRotationProvider : IRotationTargetProvider
     {
-        private readonly TargetScanner _scanner;
+        private readonly PhysicsTargetScanner _scanner;
         private readonly Transform _player;
 
-        public TargetRotationProvider(TargetScanner scanner, IPlayerTransform playerTransform)
+        public TargetRotationProvider(PhysicsTargetScanner scanner, IPlayerTransform playerTransform)
         {
             _scanner = scanner;
             _player = playerTransform.Transform;

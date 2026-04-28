@@ -13,30 +13,30 @@ namespace Game.Characters.Enemy
         private readonly DiContainer _container;
         private readonly IGlobalServiceId _idService;
         private readonly EnemyRuntimeStorage _enemyStorage;
-        private readonly EnemyViewRegistry _viewRegistry;
+        private readonly EnemyViewStore _viewStore;
         
-        private readonly TargetRuntimeRegistry _targetRegistry;
-        private readonly DamageableRuntimeRegistry _damageableRegistry;
+        private readonly TargetRuntimeStore _targetStore;
+        private readonly DamageableRuntimeStore _damageableStore;
 
         public EnemyFactory(
             DiContainer container,
             IGlobalServiceId idService,
             EnemyRuntimeStorage enemyStorage,
-            EnemyViewRegistry viewRegistry, TargetRuntimeRegistry targetRegistry, DamageableRuntimeRegistry damageableRegistry)
+            EnemyViewStore viewStore, TargetRuntimeStore targetStore, DamageableRuntimeStore damageableStore)
         {
             _container = container;
             _idService = idService;
             _enemyStorage = enemyStorage;
-            _viewRegistry = viewRegistry;
-            _targetRegistry = targetRegistry;
-            _damageableRegistry = damageableRegistry;
+            _viewStore = viewStore;
+            _targetStore = targetStore;
+            _damageableStore = damageableStore;
         }
 
-        public EnemyRuntime Create(EnemyConfig config, Vector3 position)
+        public Runtime.Enemy Create(EnemyConfig config, Vector3 position)
         {
             int id = _idService.Next();
 
-            EnemyRuntime runtime = new EnemyRuntime(id, config, position);
+            Runtime.Enemy runtime = new Runtime.Enemy(id, config, position);
 
             EnemyView view = _container.InstantiatePrefabForComponent<EnemyView>(
                 config.Prefab,
@@ -46,17 +46,15 @@ namespace Game.Characters.Enemy
 
             view.Init(id);
 
-            EnemyTarget enemyTarget = view.GetComponentInChildren<EnemyTarget>();
+            EnemyAimTarget enemyAimTarget = view.GetComponentInChildren<EnemyAimTarget>();
 
-            if (enemyTarget != null)
-                enemyTarget.Init(id);
-            else
-                Debug.LogError($"EnemyTarget not found on enemy prefab: {config.Prefab.name}");
+            if (enemyAimTarget != null)
+                enemyAimTarget.Init(id);
 
             _enemyStorage.Add(runtime);
-            _viewRegistry.Register(id, view);
-            _damageableRegistry.Register(runtime);
-            _viewRegistry.Register(id, view);
+            _targetStore.Register(runtime);
+            _damageableStore.Register(runtime);
+            _viewStore.Register(id, view);
 
             return runtime;
         }

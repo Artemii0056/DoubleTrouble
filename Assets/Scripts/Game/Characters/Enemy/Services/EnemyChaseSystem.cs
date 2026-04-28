@@ -4,17 +4,17 @@ using Zenject;
 
 namespace Game.Characters.Enemy.Services
 {
-    public sealed class EnemyChaseService : ITickable
+    public sealed class EnemyChaseSystem : ITickable
     {
         private readonly EnemyRuntimeStorage _enemyStorage;
-        private readonly TargetRuntimeRegistry _targetRegistry;
+        private readonly TargetRuntimeStore _targetStore;
 
-        public EnemyChaseService(
+        public EnemyChaseSystem(
             EnemyRuntimeStorage enemyStorage,
-            TargetRuntimeRegistry targetRegistry)
+            TargetRuntimeStore targetStore)
         {
             _enemyStorage = enemyStorage;
-            _targetRegistry = targetRegistry;
+            _targetStore = targetStore;
         }
 
         public void Tick()
@@ -26,7 +26,7 @@ namespace Game.Characters.Enemy.Services
                 if (!enemy.IsAlive)
                     continue;
 
-                ITargetRuntime target = GetOrFindTarget(enemy);
+                ITarget target = GetOrFindTarget(enemy);
 
                 if (target == null)
                     continue;
@@ -41,16 +41,16 @@ namespace Game.Characters.Enemy.Services
             }
         }
 
-        private ITargetRuntime GetOrFindTarget(EnemyRuntime enemy)
+        private ITarget GetOrFindTarget(Runtime.Enemy enemy)
         {
             if (enemy.TargetId.HasValue &&
-                _targetRegistry.TryGet(enemy.TargetId.Value, out var currentTarget) &&
+                _targetStore.TryGet(enemy.TargetId.Value, out var currentTarget) &&
                 currentTarget.IsAlive)
             {
                 return currentTarget;
             }
 
-            ITargetRuntime newTarget = _targetRegistry.GetClosest(enemy.Position);
+            ITarget newTarget = _targetStore.GetClosest(enemy.Position);
 
             if (newTarget != null)
                 enemy.SetTarget(newTarget.Id);

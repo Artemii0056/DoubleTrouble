@@ -4,11 +4,11 @@ namespace Game.Characters.Enemy.Runtime
 {
     public sealed class EnemyRuntimeStorage
     {
-        private readonly List<EnemyRuntime> _enemies = new();
+        private readonly List<Enemy> _enemies = new();
 
-        public IReadOnlyList<EnemyRuntime> Enemies => _enemies;
+        public IReadOnlyList<Enemy> Enemies => _enemies;
 
-        public void Add(EnemyRuntime enemy)
+        public void Add(Enemy enemy)
         {
             _enemies.Add(enemy);
         }

@@ -4,20 +4,20 @@ using Zenject;
 
 namespace Game.Characters.Enemy.Services
 {
-    public sealed class EnemyAttackService : ITickable
+    public sealed class EnemyAttackSystem : ITickable
     {
         private readonly EnemyRuntimeStorage _enemyStorage;
-        private readonly TargetRuntimeRegistry _targetRegistry;
-        private readonly DamageableRuntimeRegistry _damageableRegistry;
+        private readonly TargetRuntimeStore _targetStore;
+        private readonly DamageableRuntimeStore _damageableStore;
 
-        public EnemyAttackService(
+        public EnemyAttackSystem(
             EnemyRuntimeStorage enemyStorage,
-            TargetRuntimeRegistry targetRegistry,
-            DamageableRuntimeRegistry damageableRegistry)
+            TargetRuntimeStore targetStore,
+            DamageableRuntimeStore damageableStore)
         {
             _enemyStorage = enemyStorage;
-            _targetRegistry = targetRegistry;
-            _damageableRegistry = damageableRegistry;
+            _targetStore = targetStore;
+            _damageableStore = damageableStore;
         }
 
         public void Tick()
@@ -34,7 +34,7 @@ namespace Game.Characters.Enemy.Services
                 if (!enemy.TargetId.HasValue)
                     continue;
 
-                if (!_targetRegistry.TryGet(enemy.TargetId.Value, out var target))
+                if (!_targetStore.TryGet(enemy.TargetId.Value, out var target))
                     continue;
 
                 float range = enemy.Config.AttackRange;
@@ -46,7 +46,7 @@ namespace Game.Characters.Enemy.Services
                 if (!enemy.CanAttack())
                     continue;
 
-                if (!_damageableRegistry.TryGet(target.Id, out var damageable))
+                if (!_damageableStore.TryGet(target.Id, out var damageable))
                     continue;
 
                 damageable.TakeDamage(enemy.Config.AttackDamage);

@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Game.Characters.Enemy.Runtime
 {
-    public sealed class TargetRuntimeRegistry
+    public sealed class TargetRuntimeStore
     {
-        private readonly Dictionary<int, ITargetRuntime> _targets = new();
+        private readonly Dictionary<int, ITarget> _targets = new();
 
-        public void Register(ITargetRuntime target)
+        public void Register(ITarget target)
         {
             _targets[target.Id] = target;
         }
@@ -17,14 +17,14 @@ namespace Game.Characters.Enemy.Runtime
             _targets.Remove(id);
         }
 
-        public bool TryGet(int id, out ITargetRuntime target)
+        public bool TryGet(int id, out ITarget target)
         {
             return _targets.TryGetValue(id, out target);
         }
 
-        public ITargetRuntime GetClosest(Vector3 position)
+        public ITarget GetClosest(Vector3 position)
         {
-            ITargetRuntime closest = null;
+            ITarget closest = null;
             float bestSqrDistance = float.MaxValue;
 
             foreach (var target in _targets.Values)
