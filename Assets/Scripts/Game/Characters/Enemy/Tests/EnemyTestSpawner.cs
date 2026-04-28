@@ -2,12 +2,12 @@
 using UnityEngine;
 using Zenject;
 
-namespace Game.Characters.Enemy
+namespace Game.Characters.Enemy.Tests
 {
     public sealed class EnemyTestSpawner : MonoBehaviour
     {
         [SerializeField] private EnemyConfig _config;
-        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private Transform[] _spawnPoint;
 
         private EnemyFactory _enemyFactory;
 
@@ -19,7 +19,8 @@ namespace Game.Characters.Enemy
 
         private void Start()
         {
-            _enemyFactory.Create(_config, _spawnPoint.position);
+            for (int i = 0; i < _spawnPoint.Length; i++) 
+                _enemyFactory.Create(_config, _spawnPoint[i].position);
         }
     }
 }

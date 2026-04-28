@@ -40,7 +40,7 @@ namespace Game.Projectiles.Services
                 config.lifetime,
                 config.pierce,
                 config.ricochet,
-                effects);
+                effects, config.damage);
 
             return projectile;
         }

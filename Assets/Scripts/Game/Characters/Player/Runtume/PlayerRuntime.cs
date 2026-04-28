@@ -1,14 +1,30 @@
-﻿using Game.Characters.Enemy.Runtime;
+﻿using Game.Combat;
+using Game.Core.IdServices;
 using UnityEngine;
 
-public sealed class PlayerRuntime : ITargetRuntime
+namespace Game.Characters.Player.Runtume
 {
-    public int Id { get; }
-    public Vector3 Position { get; private set; }
-    public bool IsAlive => true;
-
-    public void SetPosition(Vector3 position)
+    public sealed class PlayerRuntime : IDamageableRuntime
     {
-        Position = position;
+        private readonly Health _health = new();
+
+        public PlayerRuntime(IGlobalServiceId idService)
+        {
+            Id = idService.Next();
+        }
+
+        public int Id { get; }
+        public Vector3 Position { get; private set; }
+        public bool IsAlive => _health.IsAlive;
+
+        public void SetPosition(Vector3 position)
+        {
+            Position = position;
+        }
+
+        public void TakeDamage(float damage)
+        {
+            _health.DecreaseValue(damage);
+        }
     }
 }

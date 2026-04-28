@@ -15,6 +15,8 @@ namespace Game.Characters.Enemy.Configs
         [field: SerializeField] public float AttackCooldown { get; private set; }
         [field: SerializeField] public float Damage { get; private set; }
         [field: SerializeField] public float TargetSearchInterval { get; private set; }
+        
+        [field: SerializeField] public float AttackDamage { get; private set; } = 10f;
     }
 }
 

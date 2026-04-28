@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Game.Characters.Enemy.View;
 
-namespace Game.Characters.Enemy.Runtime
+namespace Game.Characters.Enemy.View
 {
     public sealed class EnemyViewRegistry
     {

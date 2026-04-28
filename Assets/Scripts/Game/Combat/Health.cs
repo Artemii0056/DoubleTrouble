@@ -10,6 +10,7 @@ namespace Game.Combat
         {
             _value = 100f;
         }
+        
         public bool IsAlive => _value > 0;
 
         public void IncreaseValue(float value) =>

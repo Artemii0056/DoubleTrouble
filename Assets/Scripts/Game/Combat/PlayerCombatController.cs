@@ -14,8 +14,6 @@ namespace Game.Combat
         {
             _currentTarget = targetScanner.FindNearestTarget(transform.position);
 
-            Debug.Log(_currentTarget == null);
-        
             if (_currentTarget == null)
                 return;
         

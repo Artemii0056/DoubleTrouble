@@ -1,4 +1,5 @@
-﻿using Game.Combat;
+﻿using Game.Characters.Enemy.Services;
+using Game.Combat;
 using Game.Combat.Services;
 using Game.Combat.Targeting;
 using Game.Projectiles.Runtime;
@@ -12,13 +13,16 @@ namespace Game.Projectiles.Services
 
         private readonly CombatServices _combatServices;
         private readonly TargetSearchService _targetSearch;
+        private readonly DamageableRuntimeRegistry _damageableRegistry;
 
         public ProjectileHitService(
             CombatServices combatServices,
-            TargetSearchService targetSearch)
+            TargetSearchService targetSearch, 
+            DamageableRuntimeRegistry damageableRegistry)
         {
             _combatServices = combatServices;
             _targetSearch = targetSearch;
+            _damageableRegistry = damageableRegistry;
         }
 
         public void HandleHit(ProjectileRuntime projectile, ITargetable target)
@@ -35,6 +39,15 @@ namespace Game.Projectiles.Services
                 return;
 
             projectile.RegisterHit(targetId);
+            
+            if (_damageableRegistry.TryGet(targetId, out var damageable))
+            {
+                damageable.TakeDamage(projectile.Damage);
+            }
+            else
+            {
+                Debug.LogWarning($"Damageable target not found. TargetId: {targetId}");
+            }
 
             var context = new ProjectileHitContext(
                 projectile,
@@ -92,7 +105,7 @@ namespace Game.Projectiles.Services
 
         private static int GetTargetId(ITargetable target)
         {
-            return target.AimPoint.GetInstanceID();
+            return target.Id;
         }
     }
 }

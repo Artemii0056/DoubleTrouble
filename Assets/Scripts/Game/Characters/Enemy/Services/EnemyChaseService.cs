@@ -32,7 +32,7 @@ namespace Game.Characters.Enemy.Services
                     continue;
 
                 Vector3 toTarget = target.Position - enemy.Position;
-                toTarget.y = 0f;
+                toTarget.y = 0;
 
                 if (toTarget.sqrMagnitude <= 0.01f)
                     continue;
