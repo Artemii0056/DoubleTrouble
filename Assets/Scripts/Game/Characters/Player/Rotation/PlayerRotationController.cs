@@ -1,4 +1,5 @@
 ﻿using Game.Characters.Player.Scripts;
+using Game.Infrastructure.StaticData;
 using UnityEngine;
 using Zenject;
 
@@ -9,15 +10,19 @@ namespace Game.Characters.Player.Rotation
         private readonly IRotationTargetProvider _targetProvider;
         private readonly IRotationTargetProvider _inputProvider;
         private readonly Transform _playerRoot;
+        private readonly float _rotationSpeed;
 
         public PlayerRotationController(
             TargetRotationProvider targetProvider,
             InputRotationTargetProvider inputProvider,
-            IPlayerTransform playerTransform)
+            IPlayerTransform playerTransform,
+            IStaticDataService staticData)
         {
             _targetProvider = targetProvider;
             _inputProvider = inputProvider;
             _playerRoot = playerTransform.Transform;
+            
+            _rotationSpeed = staticData.PlayerRotationConfig.RotationSpeed;
         }
 
         public void Tick()
@@ -35,7 +40,7 @@ namespace Game.Characters.Player.Rotation
             _playerRoot.rotation = Quaternion.Lerp(
                 _playerRoot.rotation,
                 targetRotation,
-                10f * Time.deltaTime
+                _rotationSpeed * Time.deltaTime
             );
         }
     }

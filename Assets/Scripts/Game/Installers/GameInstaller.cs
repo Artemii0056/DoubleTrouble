@@ -1,4 +1,6 @@
-﻿using Game.Characters.Player.Movements;
+﻿using Game.Characters.Enemy.Runtime;
+using Game.Characters.Enemy.Services;
+using Game.Characters.Player.Movements;
 using Game.Characters.Player.Rotation;
 using Game.Characters.Player.Scripts;
 using Game.Combat;
@@ -6,6 +8,7 @@ using Game.Combat.Damage;
 using Game.Combat.Services;
 using Game.Combat.Statuses;
 using Game.Combat.Targeting;
+using Game.Core.IdServices;
 using Game.Infrastructure.ResourceLoaders;
 using Game.Infrastructure.StaticData;
 using Game.Input.InputReader.Scripts;
@@ -23,6 +26,10 @@ namespace Game.Installers
         
         public override void InstallBindings()
         {
+            Container.Bind<IGlobalServiceId>()
+                .To<GlobalServiceId>()
+                .AsSingle();
+            
             Container.Bind<WeaponShooter>()
                 .FromComponentInHierarchy()
                 .AsSingle();
@@ -84,6 +91,27 @@ namespace Game.Installers
             
             Container.Bind<IResourceLoader>()
                 .To<ResourceLoader>()
+                .AsSingle();
+        }
+        
+        private void EnemyBindings()
+        {
+            Container.Bind<TargetRuntimeRegistry>()
+                .AsSingle();
+
+            Container.Bind<EnemyRuntimeStorage>()
+                .AsSingle();
+
+            Container.Bind<EnemyViewRegistry>()
+                .AsSingle();
+
+            Container.Bind<EnemyFactory>()
+                .AsSingle();
+
+            Container.BindInterfacesAndSelfTo<EnemyChaseService>()
+                .AsSingle();
+
+            Container.BindInterfacesAndSelfTo<EnemyViewSyncService>()
                 .AsSingle();
         }
     }

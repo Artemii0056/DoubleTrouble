@@ -1,4 +1,4 @@
-﻿using Game.Characters.Player.Movements.Data.User;
+﻿using Game.Characters.Player.Movements.Data;
 using Game.Characters.Player.Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
 using Game.Infrastructure.ResourceLoaders;
 

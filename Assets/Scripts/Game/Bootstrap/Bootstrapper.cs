@@ -13,7 +13,6 @@ namespace Game.Bootstrap
         
         private IPlayerInputReader _inputReader;
         private IPlayerMover _playerMover;
-        private IPlayerRotator _playerRotator;
 
         [Inject]
         public void Init(IPlayerInputReader inputReader, IPlayerMover playerMover)

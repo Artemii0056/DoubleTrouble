@@ -1,4 +1,4 @@
-﻿using Game.Characters.Player.Movements.Data.User;
+﻿using Game.Characters.Player.Movements.Data;
 using Game.Infrastructure.StaticData;
 using Game.Input.InputReader.Scripts;
 using UnityEngine;

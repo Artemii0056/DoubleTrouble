@@ -8,7 +8,10 @@ namespace Game.Characters.Enemy
     {
         [SerializeField] private Transform aimPoint;
 
-        public int Id => gameObject.GetInstanceID();
+        public int Id { get; private set; }
+
+        public void Init(int id) => 
+            Id = id;
 
         public Vector3 Position => transform.position;
 
