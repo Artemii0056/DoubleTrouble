@@ -16,7 +16,7 @@ namespace Game.Projectiles.Runtime
             float lifetime,
             int pierceLeft,
             int ricochetLeft,
-            IEnumerable<IProjectileEffect> effects, float damage)
+            IEnumerable<IProjectileEffect> effects)
         {
             Id = id;
             OwnerId = ownerId;
@@ -27,7 +27,6 @@ namespace Game.Projectiles.Runtime
             Lifetime = lifetime;
             PierceLeft = pierceLeft;
             RicochetLeft = ricochetLeft;
-            Damage = damage;
 
             _effects.AddRange(effects);
         }
@@ -37,7 +36,6 @@ namespace Game.Projectiles.Runtime
 
         public Vector3 Position { get; private set; }
         public Vector3 Direction { get; private set; }
-        public float  Damage { get; private set; }
 
         public float Speed { get; private set; }
         public float Radius { get; }

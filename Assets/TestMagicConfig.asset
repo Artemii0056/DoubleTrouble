@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65300a70c195499c9853b3309fa4274e, type: 3}
-  m_Name: New Magic Damage Effect Config
+  m_Name: TestMagicConfig
   m_EditorClassIdentifier: Assembly-CSharp::TestSystem.TestProjectaileLogic.Effects.MagicDamageEffectConfig
   damage: 6

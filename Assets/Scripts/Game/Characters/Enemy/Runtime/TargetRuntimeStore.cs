@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Game.Characters;
 using UnityEngine;
 
-namespace Game.Characters.Enemy.Runtime
+namespace Game.Combat.Targeting
 {
     public sealed class TargetRuntimeStore
     {

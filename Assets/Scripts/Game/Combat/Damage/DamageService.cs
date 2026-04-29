@@ -10,7 +10,7 @@ namespace Game.Combat.Damage
         //     target.TakeDamage(damage);
         // }
         
-        public void ApplyDamage(IAimTargetable target, DamageData damage)
+        public void ApplyDamage(IAimTarget target, DamageData damage)
         {
             Debug.Log(target.Id + " - " + damage);
             //target.TakeDamage(damage);

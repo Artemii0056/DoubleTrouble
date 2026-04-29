@@ -1,16 +1,10 @@
-﻿using Game.Combat.Services;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Projectiles.Effects
 {
-    [CreateAssetMenu(menuName = "Game/Projectiles/Effects/Magic Damage")]
+    [CreateAssetMenu(fileName = nameof(MagicDamageEffectConfig), menuName = "DamageConfig/" + nameof(MagicDamageEffectConfig))]
     public sealed class MagicDamageEffectConfig : ProjectileEffectConfig
     {
         public float damage = 6f;
-
-        public override IProjectileEffect CreateEffect() //Говно. Конфиги создают что-то
-        {
-            return new MagicDamageEffect(damage);
-        }
     }
 }

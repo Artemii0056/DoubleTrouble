@@ -27,7 +27,7 @@ namespace Game.Projectiles.Services
                 config.lifetime,
                 config.pierce,
                 config.ricochet,
-                effects, config.damage);
+                effects);
 
             return projectile;
         }

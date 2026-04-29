@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Game.Projectiles.Services
 {
-    public class ProjectileCollisionService
+    public class ProjectileCollisionSystem
     {
         private readonly ProjectileHitSystem _hitSystem;
         private readonly LayerMask _targetMask;
 
-        public ProjectileCollisionService(
+        public ProjectileCollisionSystem(
             ProjectileHitSystem hitSystem)
         {
             _hitSystem = hitSystem;
@@ -35,7 +35,7 @@ namespace Game.Projectiles.Services
                     continue;
                 }
 
-                if (!hit.collider.TryGetComponent(out IAimTargetable target))
+                if (!hit.collider.TryGetComponent(out IAimTarget target))
                     continue;
 
                 _hitSystem.HandleHit(projectile, target);

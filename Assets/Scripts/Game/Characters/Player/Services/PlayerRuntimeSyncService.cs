@@ -3,6 +3,7 @@ using Game.Characters.Enemy.Runtime;
 using Game.Characters.Enemy.Services;
 using Game.Characters.Player.Runtume;
 using Game.Characters.Player.Scripts;
+using Game.Combat.Targeting;
 using Zenject;
 
 namespace Game.Characters.Player.Services

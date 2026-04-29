@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Game.Characters.Enemy
 {
-    public sealed class EnemyAimTarget : MonoBehaviour, IAimTargetable
+    public sealed class EnemyAimTarget : MonoBehaviour, IAimTarget
     {
         [SerializeField] private Transform aimPoint;
 

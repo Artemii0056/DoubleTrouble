@@ -8,7 +8,7 @@ namespace Game.Combat.Targeting
 {
     public sealed class TargetSelectionService
     {
-        private readonly List<IAimTargetable> _targets = new();
+        private readonly List<IAimTarget> _targets = new();
         private readonly TargetRuntimeStore _runtimeStore;
 
         public TargetSelectionService(TargetRuntimeStore runtimeStore)
@@ -16,7 +16,7 @@ namespace Game.Combat.Targeting
             _runtimeStore = runtimeStore;
         }
 
-        public void Register(IAimTargetable target)
+        public void Register(IAimTarget target)
         {
             if (target == null)
                 return;
@@ -25,23 +25,23 @@ namespace Game.Combat.Targeting
                 _targets.Add(target);
         }
 
-        public void Unregister(IAimTargetable target)
+        public void Unregister(IAimTarget target)
         {
             _targets.Remove(target);
         }
 
-        public IAimTargetable FindNearestExcept(
+        public IAimTarget FindNearestExcept(
             Vector3 position,
             int exceptTargetId,
             IReadOnlyCollection<int> ignoredTargetIds,
             float radius)
         {
-            IAimTargetable nearest = null;
+            IAimTarget nearest = null;
             float bestSqrDistance = radius * radius;
 
             for (int i = _targets.Count - 1; i >= 0; i--)
             {
-                IAimTargetable target = _targets[i];
+                IAimTarget target = _targets[i];
 
                 if (target == null || target.AimPoint == null)
                 {

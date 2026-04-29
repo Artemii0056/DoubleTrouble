@@ -1,4 +1,5 @@
 ﻿using Game.Characters.Enemy.Runtime;
+using Game.Characters.Enemy.Services;
 using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
@@ -12,15 +13,15 @@ namespace Game.Combat
 
         private readonly Collider[] _hits = new Collider[32];
 
-        private TargetRuntimeStore _targetRuntimeStore;
+        private DamageableRuntimeStore _damageableStore;
 
         [Inject]
-        public void Construct(TargetRuntimeStore targetRuntimeStore)
+        public void Construct(DamageableRuntimeStore damageableStore)
         {
-            _targetRuntimeStore = targetRuntimeStore;
+            _damageableStore = damageableStore;
         }
 
-        public IAimTargetable FindNearestTarget(Vector3 origin)
+        public IAimTarget FindNearestTarget(Vector3 origin)
         {
             int count = Physics.OverlapSphereNonAlloc(
                 origin,
@@ -29,18 +30,23 @@ namespace Game.Combat
                 targetMask
             );
 
-            IAimTargetable bestTarget = null;
+            IAimTarget bestTarget = null;
             float bestDistanceSqr = float.MaxValue;
 
             for (int i = 0; i < count; i++)
             {
-                if (!_hits[i].TryGetComponent(out IAimTargetable target))
+                IAimTarget target = null;
+
+                if (!_hits[i].TryGetComponent(out target))
+                    target = _hits[i].GetComponentInParent<IAimTarget>();
+
+                if (target == null || target.AimPoint == null)
                     continue;
 
-                if (!_targetRuntimeStore.TryGet(target.Id, out var runtime))
+                if (!_damageableStore.TryGet(target.Id, out var damageable))
                     continue;
 
-                if (!runtime.IsAlive)
+                if (!damageable.IsAlive)
                     continue;
 
                 float distanceSqr = (target.AimPoint.position - origin).sqrMagnitude;

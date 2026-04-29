@@ -8,11 +8,11 @@ namespace Game.Core.Tick
     public sealed class CombatTickController : MonoBehaviour
     {
         private IProjectileSimulationService _projectileSimulation;
-        private ProjectileCollisionService _projectileCollision;
+        private ProjectileCollisionSystem _projectileCollision;
         private IProjectileViewService _projectileViews;
 
         [Inject]
-        public void Init(IProjectileSimulationService projectileSimulation, ProjectileCollisionService projectileCollision, IProjectileViewService projectileViews)
+        public void Init(IProjectileSimulationService projectileSimulation, ProjectileCollisionSystem projectileCollision, IProjectileViewService projectileViews)
         {
             _projectileSimulation = projectileSimulation;
             _projectileCollision = projectileCollision;

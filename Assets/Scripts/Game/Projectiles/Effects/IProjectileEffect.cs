@@ -1,6 +1,4 @@
-﻿using Game.Projectiles.Runtime;
-
-namespace Game.Projectiles.Effects
+﻿namespace Game.Projectiles.Effects
 {
     public interface IProjectileEffect
     {

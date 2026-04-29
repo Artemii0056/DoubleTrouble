@@ -1,6 +1,8 @@
 ﻿using Game.Characters.Enemy.Services;
 using Game.Combat;
+using Game.Combat.Statuses;
 using Game.Combat.Targeting;
+using Game.Projectiles.Effects;
 using Game.Projectiles.Runtime;
 using UnityEngine;
 
@@ -14,14 +16,14 @@ namespace Game.Projectiles.Services
         private readonly DamageableRuntimeStore _damageableStore;
 
         public ProjectileHitSystem(
-            TargetSelectionService targetSelection, 
+            TargetSelectionService targetSelection,
             DamageableRuntimeStore damageableStore)
         {
             _targetSelection = targetSelection;
             _damageableStore = damageableStore;
         }
 
-        public void HandleHit(ProjectileRuntime projectile, IAimTargetable target)
+        public void HandleHit(ProjectileRuntime projectile, IAimTarget target)
         {
             if (!projectile.IsAlive)
                 return;
@@ -29,7 +31,10 @@ namespace Game.Projectiles.Services
             if (target == null || target.AimPoint == null)
                 return;
 
-            int targetId = GetTargetId(target);
+            int targetId = target.Id;
+
+            if (projectile.WasTargetHit(targetId))
+                return;
 
             if (!_damageableStore.TryGet(targetId, out var damageable))
                 return;
@@ -37,14 +42,18 @@ namespace Game.Projectiles.Services
             if (!damageable.IsAlive)
                 return;
 
+            projectile.RegisterHit(targetId);
+
+            IStatusable statusable = damageable as IStatusable;
+
             var context = new ProjectileHitContext(
                 projectile,
-                target);
+                target,
+                damageable,
+                statusable);
 
             foreach (var effect in projectile.Effects)
-            {
                 effect.OnHit(context);
-            }
 
             if (TryRicochet(projectile, target))
                 return;
@@ -64,12 +73,12 @@ namespace Game.Projectiles.Services
             return projectile.IsAlive;
         }
 
-        private bool TryRicochet(ProjectileRuntime projectile, IAimTargetable currentTarget)
+        private bool TryRicochet(ProjectileRuntime projectile, IAimTarget currentTarget)
         {
             if (projectile.RicochetLeft <= 0)
                 return false;
 
-            int currentTargetId = GetTargetId(currentTarget);
+            int currentTargetId = currentTarget.Id;
 
             var nextTarget = _targetSelection.FindNearestExcept(
                 projectile.Position,
@@ -87,11 +96,6 @@ namespace Game.Projectiles.Services
                 return false;
 
             return projectile.TryRicochet(direction);
-        }
-
-        private static int GetTargetId(IAimTargetable target)
-        {
-            return target.Id;
         }
     }
 }

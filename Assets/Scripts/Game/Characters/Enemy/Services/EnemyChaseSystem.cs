@@ -1,4 +1,5 @@
 ﻿using Game.Characters.Enemy.Runtime;
+using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
 
@@ -6,14 +7,14 @@ namespace Game.Characters.Enemy.Services
 {
     public sealed class EnemyChaseSystem : ITickable
     {
-        private readonly EnemyRuntimeStorage _enemyStorage;
+        private readonly EnemyRuntimeStore _enemyStore;
         private readonly TargetRuntimeStore _targetStore;
 
         public EnemyChaseSystem(
-            EnemyRuntimeStorage enemyStorage,
+            EnemyRuntimeStore enemyStore,
             TargetRuntimeStore targetStore)
         {
-            _enemyStorage = enemyStorage;
+            _enemyStore = enemyStore;
             _targetStore = targetStore;
         }
 
@@ -21,7 +22,7 @@ namespace Game.Characters.Enemy.Services
         {
             float deltaTime = Time.deltaTime;
 
-            foreach (var enemy in _enemyStorage.Enemies)
+            foreach (var enemy in _enemyStore.Enemies)
             {
                 if (!enemy.IsAlive)
                     continue;
@@ -32,7 +33,7 @@ namespace Game.Characters.Enemy.Services
                     continue;
 
                 Vector3 toTarget = target.Position - enemy.Position;
-                toTarget.y = 0;
+                toTarget.y = 0f;
 
                 if (toTarget.sqrMagnitude <= 0.01f)
                     continue;
@@ -41,7 +42,7 @@ namespace Game.Characters.Enemy.Services
             }
         }
 
-        private ITarget GetOrFindTarget(Runtime.Enemy enemy)
+        private ITarget GetOrFindTarget(EnemyRuntime enemy)
         {
             if (enemy.TargetId.HasValue &&
                 _targetStore.TryGet(enemy.TargetId.Value, out var currentTarget) &&

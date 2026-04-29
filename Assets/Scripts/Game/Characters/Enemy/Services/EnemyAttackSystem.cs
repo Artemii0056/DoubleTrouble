@@ -1,4 +1,5 @@
 ﻿using Game.Characters.Enemy.Runtime;
+using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
 
@@ -6,16 +7,16 @@ namespace Game.Characters.Enemy.Services
 {
     public sealed class EnemyAttackSystem : ITickable
     {
-        private readonly EnemyRuntimeStorage _enemyStorage;
+        private readonly EnemyRuntimeStore _enemyStore;
         private readonly TargetRuntimeStore _targetStore;
         private readonly DamageableRuntimeStore _damageableStore;
 
         public EnemyAttackSystem(
-            EnemyRuntimeStorage enemyStorage,
+            EnemyRuntimeStore enemyStore,
             TargetRuntimeStore targetStore,
             DamageableRuntimeStore damageableStore)
         {
-            _enemyStorage = enemyStorage;
+            _enemyStore = enemyStore;
             _targetStore = targetStore;
             _damageableStore = damageableStore;
         }
@@ -24,7 +25,7 @@ namespace Game.Characters.Enemy.Services
         {
             float deltaTime = Time.deltaTime;
 
-            foreach (var enemy in _enemyStorage.Enemies)
+            foreach (var enemy in _enemyStore.Enemies)
             {
                 if (!enemy.IsAlive)
                     continue;

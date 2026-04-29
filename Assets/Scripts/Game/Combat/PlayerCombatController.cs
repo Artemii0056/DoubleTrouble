@@ -9,7 +9,7 @@ namespace Game.Combat
         [SerializeField] private WeaponShooter weaponShooter;
         
 
-        private IAimTargetable _currentTarget;
+        private IAimTarget _currentTarget;
 
         private void Update()
         {

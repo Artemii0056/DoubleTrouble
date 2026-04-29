@@ -1,11 +1,15 @@
-﻿using Game.Characters.Enemy.Configs;
+﻿using System.Collections.Generic;
+using Game.Characters.Enemy.Configs;
+using Game.Combat.Statuses;
 using UnityEngine;
 
 namespace Game.Characters.Enemy.Runtime
 {
-    public sealed class Enemy : IDamageable
+    public sealed class EnemyRuntime : IDamageable, IStatusable
     {
-        public Enemy(int id, EnemyConfig config, Vector3 position)
+        private readonly List<StatusData> _statuses = new();
+        
+        public EnemyRuntime(int id, EnemyConfig config, Vector3 position)
         {
             Id = id;
             Config = config;
@@ -69,6 +73,12 @@ namespace Game.Characters.Enemy.Runtime
         private void Kill()
         {
             IsAlive = false;
+        }
+
+        public void ApplyStatus(StatusData status)
+        {
+            Debug.Log("ApplyStatus");
+            _statuses.Add(status);
         }
     }
 }

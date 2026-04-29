@@ -12,31 +12,29 @@ namespace Game.Characters.Enemy
     {
         private readonly DiContainer _container;
         private readonly IGlobalServiceId _idService;
-        private readonly EnemyRuntimeStorage _enemyStorage;
+        private readonly EnemyRuntimeStore _enemyStore;
         private readonly EnemyViewStore _viewStore;
-        
-        private readonly TargetRuntimeStore _targetStore;
         private readonly DamageableRuntimeStore _damageableStore;
 
         public EnemyFactory(
             DiContainer container,
             IGlobalServiceId idService,
-            EnemyRuntimeStorage enemyStorage,
-            EnemyViewStore viewStore, TargetRuntimeStore targetStore, DamageableRuntimeStore damageableStore)
+            EnemyRuntimeStore enemyStore,
+            EnemyViewStore viewStore,
+            DamageableRuntimeStore damageableStore)
         {
             _container = container;
             _idService = idService;
-            _enemyStorage = enemyStorage;
+            _enemyStore = enemyStore;
             _viewStore = viewStore;
-            _targetStore = targetStore;
             _damageableStore = damageableStore;
         }
 
-        public Runtime.Enemy Create(EnemyConfig config, Vector3 position)
+        public EnemyRuntime Create(EnemyConfig config, Vector3 position)
         {
             int id = _idService.Next();
 
-            Runtime.Enemy runtime = new Runtime.Enemy(id, config, position);
+            EnemyRuntime runtime = new EnemyRuntime(id, config, position);
 
             EnemyView view = _container.InstantiatePrefabForComponent<EnemyView>(
                 config.Prefab,
@@ -46,13 +44,14 @@ namespace Game.Characters.Enemy
 
             view.Init(id);
 
-            EnemyAimTarget enemyAimTarget = view.GetComponentInChildren<EnemyAimTarget>();
+            EnemyAimTarget aimTarget = view.GetComponentInChildren<EnemyAimTarget>();
 
-            if (enemyAimTarget != null)
-                enemyAimTarget.Init(id);
+            if (aimTarget == null)
+                Debug.LogError($"EnemyAimTarget not found on prefab {config.Prefab.name}");
+            else
+                aimTarget.Init(id);
 
-            _enemyStorage.Add(runtime);
-            _targetStore.Register(runtime);
+            _enemyStore.Add(runtime);
             _damageableStore.Register(runtime);
             _viewStore.Register(id, view);
 

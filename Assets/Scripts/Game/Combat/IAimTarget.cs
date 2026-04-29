@@ -2,7 +2,7 @@
 
 namespace Game.Combat
 {
-    public interface IAimTargetable
+    public interface IAimTarget
     {
         int Id { get; }
         Transform AimPoint { get; }

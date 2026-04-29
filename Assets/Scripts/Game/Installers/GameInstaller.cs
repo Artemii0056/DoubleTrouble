@@ -9,7 +9,6 @@ using Game.Characters.Player.Scripts;
 using Game.Characters.Player.Services;
 using Game.Combat;
 using Game.Combat.Damage;
-using Game.Combat.Services;
 using Game.Combat.Statuses;
 using Game.Combat.Targeting;
 using Game.Core.IdServices;
@@ -90,7 +89,7 @@ namespace Game.Installers
             Container.Bind<TargetRuntimeStore>()
                 .AsSingle();
 
-            Container.Bind<EnemyRuntimeStorage>()
+            Container.Bind<EnemyRuntimeStore>()
                 .AsSingle();
 
             Container.Bind<EnemyViewStore>()
@@ -116,9 +115,6 @@ namespace Game.Installers
                 .FromComponentInHierarchy()
                 .AsSingle();
 
-            Container.Bind<CombatServices>()
-                .AsTransient();
-
             Container.Bind<TargetSelectionService>()
                 .AsSingle();
 
@@ -131,7 +127,7 @@ namespace Game.Installers
             Container.Bind<ProjectileHitSystem>()
                 .AsSingle();
 
-            Container.Bind<ProjectileCollisionService>()
+            Container.Bind<ProjectileCollisionSystem>()
                 .AsSingle();
         }
 

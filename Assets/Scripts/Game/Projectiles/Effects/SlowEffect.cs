@@ -1,5 +1,4 @@
 ﻿using Game.Combat.Statuses;
-using Game.Projectiles.Runtime;
 
 namespace Game.Projectiles.Effects
 {
@@ -16,8 +15,7 @@ namespace Game.Projectiles.Effects
 
         public void OnHit(ProjectileHitContext context)
         {
-            context.Services.StatusEffects.ApplyStatus(
-                context.Target,
+            context.Statusable?.ApplyStatus(
                 new StatusData(StatusType.Slow, _power, _duration)
             );
         }
