@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Game.Characters;
-using Game.Characters.Enemy.Runtime;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Combat.Targeting
@@ -9,11 +6,11 @@ namespace Game.Combat.Targeting
     public sealed class TargetSelectionService
     {
         private readonly List<IAimTarget> _targets = new();
-        private readonly TargetRuntimeStore _runtimeStore;
+        private readonly CombatRegistry _combatRegistry;
 
-        public TargetSelectionService(TargetRuntimeStore runtimeStore)
+        public TargetSelectionService(CombatRegistry combatRegistry)
         {
-            _runtimeStore = runtimeStore;
+            _combatRegistry = combatRegistry;
         }
 
         public void Register(IAimTarget target)
@@ -51,16 +48,16 @@ namespace Game.Combat.Targeting
 
                 int targetId = target.Id;
 
-                if (!_runtimeStore.TryGet(targetId, out ITarget runtime))
+                if (!_combatRegistry.TryGetDamageable(targetId, out var damageable))
                     continue;
 
-                if (!runtime.IsAlive)
+                if (!damageable.IsAlive)
                     continue;
 
                 if (targetId == exceptTargetId)
                     continue;
 
-                if (ignoredTargetIds.Contains(targetId))
+                if (Contains(ignoredTargetIds, targetId))
                     continue;
 
                 Vector3 targetPosition = target.AimPoint.position;
@@ -74,6 +71,17 @@ namespace Game.Combat.Targeting
             }
 
             return nearest;
+        }
+
+        private static bool Contains(IReadOnlyCollection<int> ids, int targetId)
+        {
+            foreach (int id in ids)
+            {
+                if (id == targetId)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

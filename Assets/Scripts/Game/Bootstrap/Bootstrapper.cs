@@ -22,7 +22,7 @@ namespace Game.Bootstrap
 
             _inputReader.OnEnable();
             
-            _playerMover.Init(_playerView.transform, _playerView.CharacterController);
+            _playerMover.Init(_playerView.CharacterController);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Game.Characters.Enemy.Runtime;
+using Game.Characters;
+using Game.Characters.Enemy.Runtime;
 using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
@@ -8,14 +9,14 @@ namespace Game.Characters.Enemy.Services
     public sealed class EnemyChaseSystem : ITickable
     {
         private readonly EnemyRuntimeStore _enemyStore;
-        private readonly TargetRuntimeStore _targetStore;
+        private readonly CombatRegistry _combatRegistry;
 
         public EnemyChaseSystem(
             EnemyRuntimeStore enemyStore,
-            TargetRuntimeStore targetStore)
+            CombatRegistry combatRegistry)
         {
             _enemyStore = enemyStore;
-            _targetStore = targetStore;
+            _combatRegistry = combatRegistry;
         }
 
         public void Tick()
@@ -45,13 +46,13 @@ namespace Game.Characters.Enemy.Services
         private ITarget GetOrFindTarget(EnemyRuntime enemy)
         {
             if (enemy.TargetId.HasValue &&
-                _targetStore.TryGet(enemy.TargetId.Value, out var currentTarget) &&
+                _combatRegistry.TryGetTarget(enemy.TargetId.Value, out var currentTarget) &&
                 currentTarget.IsAlive)
             {
                 return currentTarget;
             }
 
-            ITarget newTarget = _targetStore.GetClosest(enemy.Position);
+            ITarget newTarget = _combatRegistry.GetClosestTarget(enemy.Position);
 
             if (newTarget != null)
                 enemy.SetTarget(newTarget.Id);

@@ -9,7 +9,6 @@ using Game.Characters.Player.Scripts;
 using Game.Characters.Player.Services;
 using Game.Combat;
 using Game.Combat.Damage;
-using Game.Combat.Statuses;
 using Game.Combat.Targeting;
 using Game.Core.IdServices;
 using Game.Infrastructure.ResourceLoaders;
@@ -30,7 +29,7 @@ namespace Game.Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<DamageableRuntimeStore>().AsSingle();
+            Container.Bind<CombatRegistry>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<EnemyAttackSystem>().AsSingle();
             
@@ -86,9 +85,6 @@ namespace Game.Installers
 
         private void EnemyBindings()
         {
-            Container.Bind<TargetRuntimeStore>()
-                .AsSingle();
-
             Container.Bind<EnemyRuntimeStore>()
                 .AsSingle();
 
@@ -116,9 +112,6 @@ namespace Game.Installers
                 .AsSingle();
 
             Container.Bind<TargetSelectionService>()
-                .AsSingle();
-
-            Container.Bind<StatusEffectService>()
                 .AsSingle();
 
             Container.Bind<DamageService>()

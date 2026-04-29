@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Game.Combat.Damage;
-using Game.Combat.Statuses;
+using System.Collections.Generic;
 using Game.Projectiles.Effects;
 using Game.Projectiles.Runtime;
 using UnityEngine;
@@ -10,17 +8,6 @@ namespace Game.Projectiles.Services
     public class ProjectileFactory : IProjectileFactory
     {
         private int _nextId = 1;
-
-        private readonly DamageService _damageService;
-        private readonly StatusEffectService _statusEffectService;
-
-        public ProjectileFactory(
-            DamageService damageService,
-            StatusEffectService statusEffectService)
-        {
-            _damageService = damageService;
-            _statusEffectService = statusEffectService;
-        }
 
         public ProjectileRuntime Create(
             ProjectileConfig config,
@@ -35,14 +22,10 @@ namespace Game.Projectiles.Services
                 switch (effectConfig)
                 {
                     case MagicDamageEffectConfig magic:
-                        effects.Add(new MagicDamageEffect(magic.damage, _damageService));
+                        effects.Add(new MagicDamageEffect(magic.damage));
                         break;
 
-                    case SlowEffectConfig slow:
-                        // effects.Add(new SlowEffect(
-                        //     slow.slowPower,
-                        //     slow.duration,
-                        //     _statusEffectService));
+                    case SlowEffectConfig:
                         break;
                 }
             }

@@ -1,5 +1,3 @@
-﻿using Game.Characters.Enemy.Runtime;
-using Game.Characters.Enemy.Services;
 using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
@@ -13,12 +11,12 @@ namespace Game.Combat
 
         private readonly Collider[] _hits = new Collider[32];
 
-        private DamageableRuntimeStore _damageableStore;
+        private CombatRegistry _combatRegistry;
 
         [Inject]
-        public void Construct(DamageableRuntimeStore damageableStore)
+        public void Construct(CombatRegistry combatRegistry)
         {
-            _damageableStore = damageableStore;
+            _combatRegistry = combatRegistry;
         }
 
         public IAimTarget FindNearestTarget(Vector3 origin)
@@ -43,7 +41,7 @@ namespace Game.Combat
                 if (target == null || target.AimPoint == null)
                     continue;
 
-                if (!_damageableStore.TryGet(target.Id, out var damageable))
+                if (!_combatRegistry.TryGetDamageable(target.Id, out var damageable))
                     continue;
 
                 if (!damageable.IsAlive)

@@ -1,5 +1,4 @@
 ﻿using Game.Projectiles.Effects;
-using Game.Projectiles.Runtime;
 using Game.Projectiles.Services;
 using UnityEngine;
 using Zenject;
@@ -34,7 +33,7 @@ namespace Game.Combat
 
             Vector3 direction = (target.AimPoint.position - firePoint.position).normalized;
 
-           ProjectileRuntime projectile =  _spawnService.Spawn(config,1, firePoint.position, direction);
+            _spawnService.Spawn(config, 1, firePoint.position, direction);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Game.Characters.Enemy.Runtime;
+using Game.Characters.Enemy.Runtime;
 using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
@@ -8,17 +8,14 @@ namespace Game.Characters.Enemy.Services
     public sealed class EnemyAttackSystem : ITickable
     {
         private readonly EnemyRuntimeStore _enemyStore;
-        private readonly TargetRuntimeStore _targetStore;
-        private readonly DamageableRuntimeStore _damageableStore;
+        private readonly CombatRegistry _combatRegistry;
 
         public EnemyAttackSystem(
             EnemyRuntimeStore enemyStore,
-            TargetRuntimeStore targetStore,
-            DamageableRuntimeStore damageableStore)
+            CombatRegistry combatRegistry)
         {
             _enemyStore = enemyStore;
-            _targetStore = targetStore;
-            _damageableStore = damageableStore;
+            _combatRegistry = combatRegistry;
         }
 
         public void Tick()
@@ -35,7 +32,7 @@ namespace Game.Characters.Enemy.Services
                 if (!enemy.TargetId.HasValue)
                     continue;
 
-                if (!_targetStore.TryGet(enemy.TargetId.Value, out var target))
+                if (!_combatRegistry.TryGetTarget(enemy.TargetId.Value, out var target))
                     continue;
 
                 float range = enemy.Config.AttackRange;
@@ -47,7 +44,7 @@ namespace Game.Characters.Enemy.Services
                 if (!enemy.CanAttack())
                     continue;
 
-                if (!_damageableStore.TryGet(target.Id, out var damageable))
+                if (!_combatRegistry.TryGetDamageable(target.Id, out var damageable))
                     continue;
 
                 damageable.TakeDamage(enemy.Config.AttackDamage);

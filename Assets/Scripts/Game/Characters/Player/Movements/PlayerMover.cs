@@ -15,7 +15,6 @@ namespace Game.Characters.Player.Movements
         private readonly float _gravity;
 
         private float _verticalVelocity;
-        private Transform _playerTransform;
         
         private bool _isActive;
 
@@ -33,11 +32,9 @@ namespace Game.Characters.Player.Movements
             _isActive = true;
         }
 
-        public void Init(Transform playerTransform, CharacterController characterController)
+        public void Init(CharacterController characterController)
         {
             _characterController = characterController;
-
-            _playerTransform = playerTransform;
         }
 
         public void Tick()

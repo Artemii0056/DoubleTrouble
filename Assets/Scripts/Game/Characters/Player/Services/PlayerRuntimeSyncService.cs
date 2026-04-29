@@ -1,6 +1,4 @@
-﻿using System;
-using Game.Characters.Enemy.Runtime;
-using Game.Characters.Enemy.Services;
+using System;
 using Game.Characters.Player.Runtume;
 using Game.Characters.Player.Scripts;
 using Game.Combat.Targeting;
@@ -12,27 +10,23 @@ namespace Game.Characters.Player.Services
     {
         private readonly Runtume.Player _runtime;
         private readonly PlayerView _view;
-        private readonly TargetRuntimeStore _targetStore;
-        private readonly DamageableRuntimeStore _damageableStore;
+        private readonly CombatRegistry _combatRegistry;
 
         public PlayerRuntimeSyncService(
             Runtume.Player runtime,
             PlayerView view,
-            TargetRuntimeStore targetStore, 
-            DamageableRuntimeStore damageableStore)
+            CombatRegistry combatRegistry)
         {
             _runtime = runtime;
             _view = view;
-            _targetStore = targetStore;
-            _damageableStore = damageableStore;
+            _combatRegistry = combatRegistry;
         }
 
         public void Initialize()
         {
             _runtime.SetPosition(_view.Transform.position);
-            _targetStore.Register(_runtime);
-            
-            _damageableStore.Register(_runtime);
+            _combatRegistry.RegisterTarget(_runtime);
+            _combatRegistry.RegisterDamageable(_runtime);
         }
 
         public void Tick()
@@ -42,8 +36,8 @@ namespace Game.Characters.Player.Services
 
         public void Dispose()
         {
-            _targetStore.Unregister(_runtime.Id);
-            _damageableStore.Unregister(_runtime.Id);
+            _combatRegistry.UnregisterTarget(_runtime.Id);
+            _combatRegistry.UnregisterDamageable(_runtime.Id);
         }
     }
 }

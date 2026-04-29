@@ -1,7 +1,7 @@
-﻿using Game.Characters.Enemy.Configs;
+using Game.Characters.Enemy.Configs;
 using Game.Characters.Enemy.Runtime;
-using Game.Characters.Enemy.Services;
 using Game.Characters.Enemy.View;
+using Game.Combat.Targeting;
 using Game.Core.IdServices;
 using UnityEngine;
 using Zenject;
@@ -14,20 +14,20 @@ namespace Game.Characters.Enemy
         private readonly IGlobalServiceId _idService;
         private readonly EnemyRuntimeStore _enemyStore;
         private readonly EnemyViewStore _viewStore;
-        private readonly DamageableRuntimeStore _damageableStore;
+        private readonly CombatRegistry _combatRegistry;
 
         public EnemyFactory(
             DiContainer container,
             IGlobalServiceId idService,
             EnemyRuntimeStore enemyStore,
             EnemyViewStore viewStore,
-            DamageableRuntimeStore damageableStore)
+            CombatRegistry combatRegistry)
         {
             _container = container;
             _idService = idService;
             _enemyStore = enemyStore;
             _viewStore = viewStore;
-            _damageableStore = damageableStore;
+            _combatRegistry = combatRegistry;
         }
 
         public EnemyRuntime Create(EnemyConfig config, Vector3 position)
@@ -52,7 +52,7 @@ namespace Game.Characters.Enemy
                 aimTarget.Init(id);
 
             _enemyStore.Add(runtime);
-            _damageableStore.Register(runtime);
+            _combatRegistry.RegisterDamageable(runtime);
             _viewStore.Register(id, view);
 
             return runtime;

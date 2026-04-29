@@ -15,17 +15,17 @@ namespace Game.Infrastructure.StaticData
         {
             _resourceLoader = resourceLoader;
 
-            LoadRotationConfig();
             LoadMovementConfig();
+            LoadRotationConfig();
         }
 
         public PlayerMovementConfig PlayerMovementConfig { get; private set; }
         public PlayerRotationConfig PlayerRotationConfig { get; private set; }
 
-        private void LoadRotationConfig() =>
+        private void LoadMovementConfig() =>
             PlayerMovementConfig = _resourceLoader.Load<PlayerMovementConfig>(PlayerMovementConfigPath);
         
-        private void LoadMovementConfig() =>
+        private void LoadRotationConfig() =>
             PlayerRotationConfig = _resourceLoader.Load<PlayerRotationConfig>(PlayerRotationConfigPath);
     }
 }

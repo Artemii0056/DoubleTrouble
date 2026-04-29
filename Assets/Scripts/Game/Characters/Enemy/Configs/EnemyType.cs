@@ -1,5 +1,3 @@
-﻿using NUnit.Framework.Constraints;
-
 namespace Game.Characters.Enemy.Configs
 {
     public enum EnemyType

@@ -1,4 +1,3 @@
-﻿using Game.Characters.Enemy.Services;
 using Game.Combat;
 using Game.Combat.Statuses;
 using Game.Combat.Targeting;
@@ -13,14 +12,14 @@ namespace Game.Projectiles.Services
         private const float RicochetSearchRadius = 8f;
 
         private readonly TargetSelectionService _targetSelection;
-        private readonly DamageableRuntimeStore _damageableStore;
+        private readonly CombatRegistry _combatRegistry;
 
         public ProjectileHitSystem(
             TargetSelectionService targetSelection,
-            DamageableRuntimeStore damageableStore)
+            CombatRegistry combatRegistry)
         {
             _targetSelection = targetSelection;
-            _damageableStore = damageableStore;
+            _combatRegistry = combatRegistry;
         }
 
         public void HandleHit(ProjectileRuntime projectile, IAimTarget target)
@@ -36,7 +35,7 @@ namespace Game.Projectiles.Services
             if (projectile.WasTargetHit(targetId))
                 return;
 
-            if (!_damageableStore.TryGet(targetId, out var damageable))
+            if (!_combatRegistry.TryGetDamageable(targetId, out var damageable))
                 return;
 
             if (!damageable.IsAlive)

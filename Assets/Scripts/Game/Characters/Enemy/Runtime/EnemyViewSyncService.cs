@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using Game.Characters.Enemy.View;
 using UnityEngine;
 using Zenject;
@@ -9,7 +8,6 @@ namespace Game.Characters.Enemy.Runtime
     {
         private readonly EnemyRuntimeStore _enemyStore;
         private readonly EnemyViewStore _viewStore;
-        private readonly HashSet<int> _deadVisualApplied = new();
 
         public EnemyViewSyncService(
             EnemyRuntimeStore enemyStore,

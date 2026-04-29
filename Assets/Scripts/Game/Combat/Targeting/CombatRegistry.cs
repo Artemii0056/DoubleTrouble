@@ -1,29 +1,30 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Game.Characters;
 using UnityEngine;
 
 namespace Game.Combat.Targeting
 {
-    public sealed class TargetRuntimeStore
+    public sealed class CombatRegistry
     {
         private readonly Dictionary<int, ITarget> _targets = new();
+        private readonly Dictionary<int, IDamageable> _damageables = new();
 
-        public void Register(ITarget target)
+        public void RegisterTarget(ITarget target)
         {
             _targets[target.Id] = target;
         }
 
-        public void Unregister(int id)
+        public void UnregisterTarget(int id)
         {
             _targets.Remove(id);
         }
 
-        public bool TryGet(int id, out ITarget target)
+        public bool TryGetTarget(int id, out ITarget target)
         {
             return _targets.TryGetValue(id, out target);
         }
 
-        public ITarget GetClosest(Vector3 position)
+        public ITarget GetClosestTarget(Vector3 position)
         {
             ITarget closest = null;
             float bestSqrDistance = float.MaxValue;
@@ -43,6 +44,21 @@ namespace Game.Combat.Targeting
             }
 
             return closest;
+        }
+
+        public void RegisterDamageable(IDamageable damageable)
+        {
+            _damageables[damageable.Id] = damageable;
+        }
+
+        public void UnregisterDamageable(int id)
+        {
+            _damageables.Remove(id);
+        }
+
+        public bool TryGetDamageable(int id, out IDamageable damageable)
+        {
+            return _damageables.TryGetValue(id, out damageable);
         }
     }
 }
