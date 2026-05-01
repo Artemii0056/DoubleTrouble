@@ -1,23 +1,20 @@
-﻿using Game.Characters.Player.Scripts;
-using Game.Combat;
+using Game.Combat.Targeting;
 using UnityEngine;
 
 namespace Game.Characters.Player.Rotation
 {
     public class TargetRotationProvider : IRotationTargetProvider
     {
-        private readonly PhysicsTargetScanner _scanner;
-        private readonly Transform _player;
+        private readonly PlayerTargetService _targetService;
 
-        public TargetRotationProvider(PhysicsTargetScanner scanner, IPlayerTransform playerTransform)
+        public TargetRotationProvider(PlayerTargetService targetService)
         {
-            _scanner = scanner;
-            _player = playerTransform.Transform;
+            _targetService = targetService;
         }
 
         public bool TryGetRotation(out Vector3 direction)
         {
-            var target = _scanner.FindNearestTarget(_player.position);
+            var target = _targetService.CurrentTarget;
 
             if (target == null)
             {
@@ -25,7 +22,7 @@ namespace Game.Characters.Player.Rotation
                 return false;
             }
 
-            direction = target.AimPoint.position - _player.position;
+            direction = target.AimPoint.position - _targetService.PlayerPosition;
             direction.y = 0f;
 
             if (direction.sqrMagnitude < 0.001f)

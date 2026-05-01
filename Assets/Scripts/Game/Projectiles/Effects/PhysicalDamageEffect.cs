@@ -1,6 +1,5 @@
-﻿using Game.Combat.Damage;
+using Game.Combat.Damage;
 using Game.Combat.Statuses;
-using Game.Projectiles.Runtime;
 
 namespace Game.Projectiles.Effects
 {
@@ -18,13 +17,11 @@ namespace Game.Projectiles.Effects
         public void OnHit(ProjectileHitContext context)
         {
             _damageService.ApplyDamage(
-                context.Target,
+                context.Damageable,
                 new DamageData(
                     context.Projectile.OwnerId,
                     _damage,
-                    DamageType.Physical
-                )
-            );
+                    DamageType.Physical));
         }
     }
 }

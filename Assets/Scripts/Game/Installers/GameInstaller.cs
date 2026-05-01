@@ -99,6 +99,9 @@ namespace Game.Installers
 
             Container.BindInterfacesAndSelfTo<EnemyViewSyncService>()
                 .AsSingle();
+
+            Container.BindInterfacesAndSelfTo<EnemyCleanupSystem>()
+                .AsSingle();
         }
 
         private void CombatBindings()
@@ -112,6 +115,9 @@ namespace Game.Installers
                 .AsSingle();
 
             Container.Bind<TargetSelectionService>()
+                .AsSingle();
+
+            Container.Bind<PlayerTargetService>()
                 .AsSingle();
 
             Container.Bind<DamageService>()

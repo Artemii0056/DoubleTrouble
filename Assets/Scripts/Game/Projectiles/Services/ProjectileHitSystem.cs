@@ -82,7 +82,7 @@ namespace Game.Projectiles.Services
             var nextTarget = _targetSelection.FindNearestExcept(
                 projectile.Position,
                 currentTargetId,
-                projectile.HitTargetIds,
+                projectile,
                 RicochetSearchRadius
             );
 

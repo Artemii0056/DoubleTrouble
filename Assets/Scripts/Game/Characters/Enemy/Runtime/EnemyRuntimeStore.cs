@@ -13,9 +13,9 @@ namespace Game.Characters.Enemy.Runtime
             _enemies.Add(enemyRuntime);
         }
 
-        public void RemoveDead()
+        public void RemoveAt(int index)
         {
-            _enemies.RemoveAll(enemy => !enemy.IsAlive);
+            _enemies.RemoveAt(index);
         }
     }
 }

@@ -1,19 +1,19 @@
-﻿using Game.Combat.Statuses;
-using UnityEngine;
+using Game.Characters;
+using Game.Combat.Statuses;
 
 namespace Game.Combat.Damage
 {
     public class DamageService
     {
-        // public void ApplyDamage(ITargetable target, DamageData damage)
-        // {
-        //     target.TakeDamage(damage);
-        // }
-        
-        public void ApplyDamage(IAimTarget target, DamageData damage)
+        public void ApplyDamage(IDamageable target, DamageData damage)
         {
-            Debug.Log(target.Id + " - " + damage);
-            //target.TakeDamage(damage);
+            if (target == null || !target.IsAlive)
+                return;
+
+            if (damage.Amount <= 0f)
+                return;
+
+            target.TakeDamage(damage.Amount);
         }
     }
 }

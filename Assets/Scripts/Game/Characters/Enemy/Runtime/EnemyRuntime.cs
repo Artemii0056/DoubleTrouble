@@ -47,8 +47,6 @@ namespace Game.Characters.Enemy.Runtime
 
         public void TakeDamage(float damage)
         {
-            Debug.Log($"Enemy {Id} take damage {damage}. HP before: {Hp}");
-
             if (!IsAlive)
                 return;
 
@@ -77,7 +75,6 @@ namespace Game.Characters.Enemy.Runtime
 
         public void ApplyStatus(StatusData status)
         {
-            Debug.Log("ApplyStatus");
             _statuses.Add(status);
         }
     }

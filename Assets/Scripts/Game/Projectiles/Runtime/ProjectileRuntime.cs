@@ -1,11 +1,23 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Game.Combat.Targeting;
 using Game.Projectiles.Effects;
 using UnityEngine;
 
 namespace Game.Projectiles.Runtime
 {
-    public class ProjectileRuntime
+    public class ProjectileRuntime : ITargetHitHistory
     {
+        private const int InlineHitTargetCapacity = 4;
+
+        private readonly IReadOnlyList<IProjectileEffect> _effects;
+
+        private int _hitTargetCount;
+        private int _hitTargetId0;
+        private int _hitTargetId1;
+        private int _hitTargetId2;
+        private int _hitTargetId3;
+        private HashSet<int> _overflowHitTargetIds;
+
         public ProjectileRuntime(
             int id,
             int ownerId,
@@ -16,7 +28,7 @@ namespace Game.Projectiles.Runtime
             float lifetime,
             int pierceLeft,
             int ricochetLeft,
-            IEnumerable<IProjectileEffect> effects)
+            IReadOnlyList<IProjectileEffect> effects)
         {
             Id = id;
             OwnerId = ownerId;
@@ -27,10 +39,9 @@ namespace Game.Projectiles.Runtime
             Lifetime = lifetime;
             PierceLeft = pierceLeft;
             RicochetLeft = ricochetLeft;
-
-            _effects.AddRange(effects);
+            _effects = effects;
         }
-    
+
         public int Id { get; }
         public int OwnerId { get; }
 
@@ -46,10 +57,6 @@ namespace Game.Projectiles.Runtime
         public int PierceLeft { get; private set; }
         public int RicochetLeft { get; private set; }
 
-        private readonly HashSet<int> _hitTargetIds = new();
-        private readonly List<IProjectileEffect> _effects = new();
-
-        public IReadOnlyCollection<int> HitTargetIds => _hitTargetIds;
         public IReadOnlyList<IProjectileEffect> Effects => _effects;
 
         public void Tick(float deltaTime)
@@ -68,12 +75,39 @@ namespace Game.Projectiles.Runtime
 
         public bool WasTargetHit(int targetId)
         {
-            return _hitTargetIds.Contains(targetId);
+            return Contains(targetId);
+        }
+
+        public bool Contains(int targetId)
+        {
+            if (_hitTargetCount > 0 && _hitTargetId0 == targetId)
+                return true;
+
+            if (_hitTargetCount > 1 && _hitTargetId1 == targetId)
+                return true;
+
+            if (_hitTargetCount > 2 && _hitTargetId2 == targetId)
+                return true;
+
+            if (_hitTargetCount > 3 && _hitTargetId3 == targetId)
+                return true;
+
+            return _overflowHitTargetIds != null && _overflowHitTargetIds.Contains(targetId);
         }
 
         public void RegisterHit(int targetId)
         {
-            _hitTargetIds.Add(targetId);
+            if (Contains(targetId))
+                return;
+
+            if (_hitTargetCount < InlineHitTargetCapacity)
+            {
+                AddInlineHitTarget(targetId);
+                return;
+            }
+
+            _overflowHitTargetIds ??= new HashSet<int>();
+            _overflowHitTargetIds.Add(targetId);
         }
 
         public void SpendPierce()
@@ -92,6 +126,27 @@ namespace Game.Projectiles.Runtime
             RicochetLeft--;
             Direction = newDirection.normalized;
             return true;
+        }
+
+        private void AddInlineHitTarget(int targetId)
+        {
+            switch (_hitTargetCount)
+            {
+                case 0:
+                    _hitTargetId0 = targetId;
+                    break;
+                case 1:
+                    _hitTargetId1 = targetId;
+                    break;
+                case 2:
+                    _hitTargetId2 = targetId;
+                    break;
+                case 3:
+                    _hitTargetId3 = targetId;
+                    break;
+            }
+
+            _hitTargetCount++;
         }
 
         private void Move(float deltaTime)

@@ -1,24 +1,29 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+using Game.Combat.Targeting;
+using UnityEngine;
+using Zenject;
 
 namespace Game.Combat
 {
     public class PlayerCombatController : MonoBehaviour
     {
-        [FormerlySerializedAs("targetScanner")] [SerializeField] private PhysicsTargetScanner physicsTargetScanner;
         [SerializeField] private WeaponShooter weaponShooter;
-        
 
-        private IAimTarget _currentTarget;
+        private PlayerTargetService _targetService;
+
+        [Inject]
+        public void Construct(PlayerTargetService targetService)
+        {
+            _targetService = targetService;
+        }
 
         private void Update()
         {
-            _currentTarget = physicsTargetScanner.FindNearestTarget(transform.position);
+            IAimTarget currentTarget = _targetService.CurrentTarget;
 
-            if (_currentTarget == null)
+            if (currentTarget == null)
                 return;
-        
-            weaponShooter.TryShoot(_currentTarget);
+
+            weaponShooter.TryShoot(currentTarget);
         }
     }
 }

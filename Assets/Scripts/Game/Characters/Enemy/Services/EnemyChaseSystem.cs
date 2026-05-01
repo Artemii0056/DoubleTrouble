@@ -1,4 +1,3 @@
-using Game.Characters;
 using Game.Characters.Enemy.Runtime;
 using Game.Combat.Targeting;
 using UnityEngine;

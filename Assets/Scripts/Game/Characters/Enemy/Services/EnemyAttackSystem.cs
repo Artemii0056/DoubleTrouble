@@ -1,4 +1,6 @@
 using Game.Characters.Enemy.Runtime;
+using Game.Combat.Damage;
+using Game.Combat.Statuses;
 using Game.Combat.Targeting;
 using UnityEngine;
 using Zenject;
@@ -9,13 +11,16 @@ namespace Game.Characters.Enemy.Services
     {
         private readonly EnemyRuntimeStore _enemyStore;
         private readonly CombatRegistry _combatRegistry;
+        private readonly DamageService _damageService;
 
         public EnemyAttackSystem(
             EnemyRuntimeStore enemyStore,
-            CombatRegistry combatRegistry)
+            CombatRegistry combatRegistry,
+            DamageService damageService)
         {
             _enemyStore = enemyStore;
             _combatRegistry = combatRegistry;
+            _damageService = damageService;
         }
 
         public void Tick()
@@ -47,7 +52,13 @@ namespace Game.Characters.Enemy.Services
                 if (!_combatRegistry.TryGetDamageable(target.Id, out var damageable))
                     continue;
 
-                damageable.TakeDamage(enemy.Config.AttackDamage);
+                _damageService.ApplyDamage(
+                    damageable,
+                    new DamageData(
+                        enemy.Id,
+                        enemy.Config.AttackDamage,
+                        DamageType.Physical));
+
                 enemy.ResetAttackCooldown();
             }
         }

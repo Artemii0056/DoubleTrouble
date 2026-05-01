@@ -30,7 +30,7 @@ namespace Game.Combat.Targeting
         public IAimTarget FindNearestExcept(
             Vector3 position,
             int exceptTargetId,
-            IReadOnlyCollection<int> ignoredTargetIds,
+            ITargetHitHistory hitHistory,
             float radius)
         {
             IAimTarget nearest = null;
@@ -57,7 +57,7 @@ namespace Game.Combat.Targeting
                 if (targetId == exceptTargetId)
                     continue;
 
-                if (Contains(ignoredTargetIds, targetId))
+                if (hitHistory.Contains(targetId))
                     continue;
 
                 Vector3 targetPosition = target.AimPoint.position;
@@ -71,17 +71,6 @@ namespace Game.Combat.Targeting
             }
 
             return nearest;
-        }
-
-        private static bool Contains(IReadOnlyCollection<int> ids, int targetId)
-        {
-            foreach (int id in ids)
-            {
-                if (id == targetId)
-                    return true;
-            }
-
-            return false;
         }
     }
 }

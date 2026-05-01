@@ -1,5 +1,3 @@
-﻿using UnityEngine;
-
 namespace Game.Combat
 {
     public class Health
@@ -10,7 +8,7 @@ namespace Game.Combat
         {
             _value = 100f;
         }
-        
+
         public bool IsAlive => _value > 0;
 
         public void IncreaseValue(float value) =>
@@ -18,7 +16,6 @@ namespace Game.Combat
 
         public void DecreaseValue(float value)
         {
-            Debug.Log(value);
             _value -= value;
         }
     }
