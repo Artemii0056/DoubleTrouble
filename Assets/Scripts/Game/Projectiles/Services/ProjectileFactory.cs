@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.Combat.Damage;
+using Game.Core.IdServices;
 using Game.Projectiles.Effects;
 using Game.Projectiles.Runtime;
 using UnityEngine;
@@ -9,13 +10,18 @@ namespace Game.Projectiles.Services
     public class ProjectileFactory : IProjectileFactory
     {
         private readonly Dictionary<ProjectileConfig, IReadOnlyList<IProjectileEffect>> _effectCache = new();
+        private readonly IGlobalServiceId _idService;
         private readonly DamageService _damageService;
+        private readonly ProjectileRuntimePool _runtimePool;
 
-        private int _nextId = 1;
-
-        public ProjectileFactory(DamageService damageService)
+        public ProjectileFactory(
+            IGlobalServiceId idService,
+            DamageService damageService,
+            ProjectileRuntimePool runtimePool)
         {
+            _idService = idService;
             _damageService = damageService;
+            _runtimePool = runtimePool;
         }
 
         public ProjectileRuntime Create(
@@ -24,8 +30,8 @@ namespace Game.Projectiles.Services
             Vector3 position,
             Vector3 direction)
         {
-            return new ProjectileRuntime(
-                _nextId++,
+            return _runtimePool.Spawn(
+                _idService.Next(),
                 ownerId,
                 position,
                 direction.normalized,

@@ -1,12 +1,13 @@
 using Game.Combat.Targeting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Combat
 {
-    public class PlayerCombatController : MonoBehaviour
+    public sealed class PlayerCombatController : MonoBehaviour
     {
-        [SerializeField] private WeaponShooter weaponShooter;
+        [FormerlySerializedAs("weaponShooter")] [SerializeField] private WeaponShooter _weaponShooter;
 
         private PlayerTargetService _targetService;
 
@@ -23,7 +24,7 @@ namespace Game.Combat
             if (currentTarget == null)
                 return;
 
-            weaponShooter.TryShoot(currentTarget);
+            _weaponShooter.TryShoot(currentTarget);
         }
     }
 }

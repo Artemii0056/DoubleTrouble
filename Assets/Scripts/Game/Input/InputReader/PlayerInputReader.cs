@@ -2,23 +2,22 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Game.Input.InputReader.Scripts
+namespace Game.Input.InputReader
 {
-    public class PlayerInputReader : IPlayerInputReader
+    public sealed class PlayerInputReader : IPlayerInputReader
     {
-        public event Action InteractStarted;
-        public event Action InteractCanceled;
-
         private readonly PlayerInputActions _input;
 
         public PlayerInputReader()
         {
             _input = new PlayerInputActions();
         }
-        
+
+        public event Action InteractStarted;
+        public event Action InteractCanceled;
+
         public Vector2 MoveValue { get; private set; }
         public Vector2 LookValue { get; private set; }
-
         public bool InteractHeld { get; private set; }
         public bool MouseHeld { get; private set; }
 
@@ -34,7 +33,7 @@ namespace Game.Input.InputReader.Scripts
 
             _input.Player.Interact.started += OnInteractStarted;
             _input.Player.Interact.canceled += OnInteractCanceled;
-            
+
             _input.Player.MouseHold.started += OnMouseStarted;
             _input.Player.MouseHold.canceled += OnMouseCanceled;
         }
@@ -49,7 +48,7 @@ namespace Game.Input.InputReader.Scripts
 
             _input.Player.Interact.started -= OnInteractStarted;
             _input.Player.Interact.canceled -= OnInteractCanceled;
-            
+
             _input.Player.MouseHold.started -= OnMouseStarted;
             _input.Player.MouseHold.canceled -= OnMouseCanceled;
 
@@ -59,16 +58,6 @@ namespace Game.Input.InputReader.Scripts
         private void OnMovePerformed(InputAction.CallbackContext context)
         {
             MoveValue = context.ReadValue<Vector2>();
-        }
-        
-        private void OnMouseStarted(InputAction.CallbackContext context)
-        {
-            MouseHeld = true;
-        }
-        
-        private void OnMouseCanceled(InputAction.CallbackContext context)
-        {
-            MouseHeld = false;
         }
 
         private void OnMoveCanceled(InputAction.CallbackContext context)
@@ -84,6 +73,16 @@ namespace Game.Input.InputReader.Scripts
         private void OnLookCanceled(InputAction.CallbackContext context)
         {
             LookValue = Vector2.zero;
+        }
+
+        private void OnMouseStarted(InputAction.CallbackContext context)
+        {
+            MouseHeld = true;
+        }
+
+        private void OnMouseCanceled(InputAction.CallbackContext context)
+        {
+            MouseHeld = false;
         }
 
         private void OnInteractStarted(InputAction.CallbackContext context)

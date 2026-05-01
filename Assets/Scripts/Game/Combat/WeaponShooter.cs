@@ -1,25 +1,28 @@
-﻿using Game.Projectiles.Effects;
+using Game.Projectiles.Effects;
 using Game.Projectiles.Services;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
+using PlayerRuntime = Game.Characters.Player.Runtime.Player;
 
 namespace Game.Combat
 {
-    public class WeaponShooter : MonoBehaviour
+    public sealed class WeaponShooter : MonoBehaviour
     {
-        [SerializeField] private ProjectileConfig config;
-        [SerializeField] private Transform firePoint;
-        [SerializeField] private float fireRate = 3f;
-        
+        [FormerlySerializedAs("config")] [SerializeField] private ProjectileConfig _config;
+        [FormerlySerializedAs("firePoint")] [SerializeField] private Transform _firePoint;
+        [FormerlySerializedAs("fireRate")] [SerializeField] private float _fireRate = 3f;
+
         private IProjectileSpawnService _spawnService;
+        private PlayerRuntime _owner;
+        private float _nextShotTime;
 
         [Inject]
-        public void Init(IProjectileSpawnService spawnService)
+        public void Init(IProjectileSpawnService spawnService, PlayerRuntime owner)
         {
             _spawnService = spawnService;
+            _owner = owner;
         }
-
-        private float _nextShotTime;
 
         public void TryShoot(IAimTarget target)
         {
@@ -29,11 +32,11 @@ namespace Game.Combat
             if (Time.time < _nextShotTime)
                 return;
 
-            _nextShotTime = Time.time + 1f / fireRate;
+            _nextShotTime = Time.time + 1f / _fireRate;
 
-            Vector3 direction = (target.AimPoint.position - firePoint.position).normalized;
+            Vector3 direction = (target.AimPoint.position - _firePoint.position).normalized;
 
-            _spawnService.Spawn(config, 1, firePoint.position, direction);
+            _spawnService.Spawn(_config, _owner.Id, _firePoint.position, direction);
         }
     }
 }

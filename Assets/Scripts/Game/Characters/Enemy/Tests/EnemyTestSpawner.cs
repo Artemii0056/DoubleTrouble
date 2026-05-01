@@ -1,5 +1,6 @@
-﻿using Game.Characters.Enemy.Configs;
+using Game.Characters.Enemy.Configs;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Characters.Enemy.Tests
@@ -7,7 +8,7 @@ namespace Game.Characters.Enemy.Tests
     public sealed class EnemyTestSpawner : MonoBehaviour
     {
         [SerializeField] private EnemyConfig _config;
-        [SerializeField] private Transform[] _spawnPoint;
+        [FormerlySerializedAs("_spawnPoint")] [SerializeField] private Transform[] _spawnPoints;
 
         private EnemyFactory _enemyFactory;
 
@@ -19,8 +20,8 @@ namespace Game.Characters.Enemy.Tests
 
         private void Start()
         {
-            for (int i = 0; i < _spawnPoint.Length; i++) 
-                _enemyFactory.Create(_config, _spawnPoint[i].position);
+            for (int i = 0; i < _spawnPoints.Length; i++)
+                _enemyFactory.Create(_config, _spawnPoints[i].position);
         }
     }
 }

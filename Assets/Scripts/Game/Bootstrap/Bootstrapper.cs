@@ -1,7 +1,7 @@
 ﻿using Game.Characters.Player.Movements;
 using Game.Characters.Player.Rotation;
-using Game.Characters.Player.Scripts;
-using Game.Input.InputReader.Scripts;
+using Game.Characters.Player.View;
+using Game.Input.InputReader;
 using UnityEngine;
 using Zenject;
 

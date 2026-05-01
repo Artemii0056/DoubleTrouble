@@ -1,4 +1,4 @@
-using Game.Characters.Player.Scripts;
+using Game.Characters.Player.View;
 using UnityEngine;
 
 namespace Game.Combat.Targeting

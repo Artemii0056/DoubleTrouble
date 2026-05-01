@@ -1,14 +1,16 @@
-﻿using Game.Input.InputReader.Scripts;
+using Game.Input.InputReader;
 using UnityEngine;
 
 namespace Game.Characters.Player.Rotation
 {
-    public class InputRotationTargetProvider  : IRotationTargetProvider
+    public sealed class InputRotationTargetProvider : IRotationTargetProvider
     {
         private readonly IPlayerInputReader _inputReader;
-        
-        public InputRotationTargetProvider(IPlayerInputReader inputReader) => 
+
+        public InputRotationTargetProvider(IPlayerInputReader inputReader)
+        {
             _inputReader = inputReader;
+        }
 
         public bool TryGetRotation(out Vector3 direction)
         {

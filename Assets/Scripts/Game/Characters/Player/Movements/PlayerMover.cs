@@ -1,6 +1,6 @@
 ﻿using Game.Characters.Player.Movements.Data;
 using Game.Infrastructure.StaticData;
-using Game.Input.InputReader.Scripts;
+using Game.Input.InputReader;
 using UnityEngine;
 using Zenject;
 

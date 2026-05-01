@@ -1,13 +1,14 @@
 using Game.Combat.Targeting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Game.Combat
 {
-    public class PhysicsTargetScanner : MonoBehaviour
+    public sealed class PhysicsTargetScanner : MonoBehaviour
     {
-        [SerializeField] private float searchRadius = 8f;
-        [SerializeField] private LayerMask targetMask;
+        [FormerlySerializedAs("searchRadius")] [SerializeField] private float _searchRadius = 8f;
+        [FormerlySerializedAs("targetMask")] [SerializeField] private LayerMask _targetMask;
 
         private readonly Collider[] _hits = new Collider[32];
 
@@ -23,10 +24,9 @@ namespace Game.Combat
         {
             int count = Physics.OverlapSphereNonAlloc(
                 origin,
-                searchRadius,
+                _searchRadius,
                 _hits,
-                targetMask
-            );
+                _targetMask);
 
             IAimTarget bestTarget = null;
             float bestDistanceSqr = float.MaxValue;
@@ -62,7 +62,7 @@ namespace Game.Combat
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, searchRadius);
+            Gizmos.DrawWireSphere(transform.position, _searchRadius);
         }
     }
 }

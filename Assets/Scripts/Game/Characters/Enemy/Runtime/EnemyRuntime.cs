@@ -11,23 +11,33 @@ namespace Game.Characters.Enemy.Runtime
         
         public EnemyRuntime(int id, EnemyConfig config, Vector3 position)
         {
-            Id = id;
-            Config = config;
-            Position = position;
-            Hp = config.MaxHp;
+            Init(id, config, position);
         }
 
-        public int Id { get; }
-        public EnemyConfig Config { get; }
+        public int Id { get; private set; }
+        public EnemyConfig Config { get; private set; }
 
         public Vector3 Position { get; private set; }
         public Vector3 Direction { get; private set; }
 
         public float Hp { get; private set; }
-        public bool IsAlive { get; private set; } = true;
+        public bool IsAlive { get; private set; }
 
         public int? TargetId { get; private set; }
         public float AttackCooldownLeft { get; private set; }
+
+        public void Init(int id, EnemyConfig config, Vector3 position)
+        {
+            Id = id;
+            Config = config;
+            Position = position;
+            Direction = Vector3.zero;
+            Hp = config.MaxHp;
+            IsAlive = true;
+            TargetId = null;
+            AttackCooldownLeft = 0f;
+            _statuses.Clear();
+        }
 
         public void SetTarget(int targetId) => TargetId = targetId;
 

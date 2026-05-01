@@ -4,16 +4,17 @@ using Game.Characters.Enemy.Services;
 using Game.Characters.Enemy.View;
 using Game.Characters.Player.Movements;
 using Game.Characters.Player.Rotation;
-using Game.Characters.Player.Runtume;
-using Game.Characters.Player.Scripts;
+using Game.Characters.Player.Runtime;
 using Game.Characters.Player.Services;
+using Game.Characters.Player.View;
 using Game.Combat;
 using Game.Combat.Damage;
 using Game.Combat.Targeting;
 using Game.Core.IdServices;
 using Game.Infrastructure.ResourceLoaders;
 using Game.Infrastructure.StaticData;
-using Game.Input.InputReader.Scripts;
+using Game.Input.InputReader;
+using Game.Projectiles.Runtime;
 using Game.Projectiles.Services;
 using Game.Projectiles.View;
 using UnityEngine;
@@ -22,10 +23,12 @@ using Zenject;
 
 namespace Game.Installers
 {
-    public class GameInstaller : MonoInstaller
+    public sealed class GameInstaller : MonoInstaller
     {
         [SerializeField] private PlayerView _playerView;
-        [FormerlySerializedAs("_targetScanner")] [SerializeField] private PhysicsTargetScanner physicsTargetScanner;
+        [FormerlySerializedAs("physicsTargetScanner")]
+        [FormerlySerializedAs("_targetScanner")]
+        [SerializeField] private PhysicsTargetScanner _physicsTargetScanner;
 
         public override void InstallBindings()
         {
@@ -64,7 +67,11 @@ namespace Game.Installers
                 .To<PlayerInputReader>()
                 .AsSingle();
 
+            Container.Bind<PlayerFactory>()
+                .AsSingle();
+
             Container.Bind<Player>()
+                .FromMethod(_ => Container.Resolve<PlayerFactory>().Create())
                 .AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerRuntimeSyncService>()
@@ -88,7 +95,13 @@ namespace Game.Installers
             Container.Bind<EnemyRuntimeStore>()
                 .AsSingle();
 
+            Container.Bind<EnemyRuntimePool>()
+                .AsSingle();
+
             Container.Bind<EnemyViewStore>()
+                .AsSingle();
+
+            Container.Bind<EnemyViewPool>()
                 .AsSingle();
 
             Container.Bind<EnemyFactory>()
@@ -107,7 +120,7 @@ namespace Game.Installers
         private void CombatBindings()
         {
             Container.Bind<PhysicsTargetScanner>()
-                .FromInstance(physicsTargetScanner)
+                .FromInstance(_physicsTargetScanner)
                 .AsSingle();
 
             Container.Bind<WeaponShooter>()
@@ -132,6 +145,9 @@ namespace Game.Installers
 
         private void ProjectileBindings()
         {
+            Container.Bind<ProjectileRuntimePool>()
+                .AsSingle();
+
             Container.Bind<IProjectileFactory>()
                 .To<ProjectileFactory>()
                 .AsSingle();

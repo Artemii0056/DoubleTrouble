@@ -1,19 +1,19 @@
 using System;
-using Game.Characters.Player.Runtume;
-using Game.Characters.Player.Scripts;
+using Game.Characters.Player.View;
 using Game.Combat.Targeting;
 using Zenject;
+using PlayerRuntime = Game.Characters.Player.Runtime.Player;
 
 namespace Game.Characters.Player.Services
 {
     public sealed class PlayerRuntimeSyncService : IInitializable, ITickable, IDisposable
     {
-        private readonly Runtume.Player _runtime;
+        private readonly PlayerRuntime _runtime;
         private readonly PlayerView _view;
         private readonly CombatRegistry _combatRegistry;
 
         public PlayerRuntimeSyncService(
-            Runtume.Player runtime,
+            PlayerRuntime runtime,
             PlayerView view,
             CombatRegistry combatRegistry)
         {

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Game.Characters.Player.Scripts
+namespace Game.Characters.Player.View
 {
-    public class PlayerView : MonoBehaviour, IPlayerTransform
+    public sealed class PlayerView : MonoBehaviour, IPlayerTransform
     {
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
         

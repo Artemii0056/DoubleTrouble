@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using Game.Projectiles.Runtime;
+using UnityEngine;
 
-namespace Game.Projectiles.Runtime
+namespace Game.Projectiles.View
 {
     public sealed class ProjectileView : MonoBehaviour
     {

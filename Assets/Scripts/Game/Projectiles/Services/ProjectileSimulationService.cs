@@ -6,9 +6,11 @@ namespace Game.Projectiles.Services
     public sealed class ProjectileSimulationService : IProjectileSimulationService
     {
         private readonly List<ProjectileRuntime> _projectiles;
+        private readonly ProjectileRuntimePool _runtimePool;
 
-        public ProjectileSimulationService()
+        public ProjectileSimulationService(ProjectileRuntimePool runtimePool)
         {
+            _runtimePool = runtimePool;
             _projectiles = new();
         }
         
@@ -22,20 +24,27 @@ namespace Game.Projectiles.Services
 
                 if (projectile.IsAlive == false)
                 {
-                    _projectiles.RemoveAt(i);
+                    RemoveAt(i);
                     continue;
                 }
 
                 projectile.Tick(deltaTime);
 
                 if (projectile.IsAlive == false)
-                    _projectiles.RemoveAt(i);
+                    RemoveAt(i);
             }
         }
 
         public void Add(ProjectileRuntime projectile)
         {
             _projectiles.Add(projectile);
+        }
+
+        private void RemoveAt(int index)
+        {
+            ProjectileRuntime projectile = _projectiles[index];
+            _projectiles.RemoveAt(index);
+            _runtimePool.Release(projectile);
         }
     }
 }

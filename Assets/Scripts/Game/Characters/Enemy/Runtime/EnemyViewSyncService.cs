@@ -24,14 +24,10 @@ namespace Game.Characters.Enemy.Runtime
                 if (!_viewStore.TryGet(enemy.Id, out var view))
                     continue;
 
-                view.SetPosition(enemy.Position);
-
                 if (!enemy.IsAlive)
-                {
-                    view.SetDeadVisual();
                     continue;
-                }
 
+                view.SetPosition(enemy.Position);
                 view.SetDirection(enemy.Direction);
             }
         }

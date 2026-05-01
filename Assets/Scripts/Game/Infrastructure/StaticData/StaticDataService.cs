@@ -1,10 +1,10 @@
-﻿using Game.Characters.Player.Movements.Data;
-using Game.Characters.Player.Rotation._ProjectFiles.Player.Scripts.Movements.Configs;
+using Game.Characters.Player.Movements.Data;
+using Game.Characters.Player.Rotation;
 using Game.Infrastructure.ResourceLoaders;
 
 namespace Game.Infrastructure.StaticData
 {
-    public class StaticDataService : IStaticDataService
+    public sealed class StaticDataService : IStaticDataService
     {
         private const string PlayerMovementConfigPath = "Configs/PlayerMovementConfig";
         private const string PlayerRotationConfigPath = "Configs/PlayerRotationConfig";
@@ -22,10 +22,14 @@ namespace Game.Infrastructure.StaticData
         public PlayerMovementConfig PlayerMovementConfig { get; private set; }
         public PlayerRotationConfig PlayerRotationConfig { get; private set; }
 
-        private void LoadMovementConfig() =>
+        private void LoadMovementConfig()
+        {
             PlayerMovementConfig = _resourceLoader.Load<PlayerMovementConfig>(PlayerMovementConfigPath);
-        
-        private void LoadRotationConfig() =>
+        }
+
+        private void LoadRotationConfig()
+        {
             PlayerRotationConfig = _resourceLoader.Load<PlayerRotationConfig>(PlayerRotationConfigPath);
+        }
     }
 }

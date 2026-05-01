@@ -9,8 +9,7 @@ namespace Game.Projectiles.Runtime
     {
         private const int InlineHitTargetCapacity = 4;
 
-        private readonly IReadOnlyList<IProjectileEffect> _effects;
-
+        private IReadOnlyList<IProjectileEffect> _effects;
         private int _hitTargetCount;
         private int _hitTargetId0;
         private int _hitTargetId1;
@@ -19,6 +18,48 @@ namespace Game.Projectiles.Runtime
         private HashSet<int> _overflowHitTargetIds;
 
         public ProjectileRuntime(
+            int id,
+            int ownerId,
+            Vector3 position,
+            Vector3 direction,
+            float speed,
+            float radius,
+            float lifetime,
+            int pierceLeft,
+            int ricochetLeft,
+            IReadOnlyList<IProjectileEffect> effects)
+        {
+            Init(
+                id,
+                ownerId,
+                position,
+                direction,
+                speed,
+                radius,
+                lifetime,
+                pierceLeft,
+                ricochetLeft,
+                effects);
+        }
+
+        public int Id { get; private set; }
+        public int OwnerId { get; private set; }
+
+        public Vector3 Position { get; private set; }
+        public Vector3 Direction { get; private set; }
+
+        public float Speed { get; private set; }
+        public float Radius { get; private set; }
+        public float Lifetime { get; private set; }
+
+        public bool IsAlive { get; private set; }
+
+        public int PierceLeft { get; private set; }
+        public int RicochetLeft { get; private set; }
+
+        public IReadOnlyList<IProjectileEffect> Effects => _effects;
+
+        public void Init(
             int id,
             int ownerId,
             Vector3 position,
@@ -40,24 +81,9 @@ namespace Game.Projectiles.Runtime
             PierceLeft = pierceLeft;
             RicochetLeft = ricochetLeft;
             _effects = effects;
+            IsAlive = true;
+            ClearHitTargets();
         }
-
-        public int Id { get; }
-        public int OwnerId { get; }
-
-        public Vector3 Position { get; private set; }
-        public Vector3 Direction { get; private set; }
-
-        public float Speed { get; private set; }
-        public float Radius { get; }
-        public float Lifetime { get; private set; }
-
-        public bool IsAlive { get; private set; } = true;
-
-        public int PierceLeft { get; private set; }
-        public int RicochetLeft { get; private set; }
-
-        public IReadOnlyList<IProjectileEffect> Effects => _effects;
 
         public void Tick(float deltaTime)
         {
@@ -147,6 +173,16 @@ namespace Game.Projectiles.Runtime
             }
 
             _hitTargetCount++;
+        }
+
+        private void ClearHitTargets()
+        {
+            _hitTargetCount = 0;
+            _hitTargetId0 = 0;
+            _hitTargetId1 = 0;
+            _hitTargetId2 = 0;
+            _hitTargetId3 = 0;
+            _overflowHitTargetIds?.Clear();
         }
 
         private void Move(float deltaTime)

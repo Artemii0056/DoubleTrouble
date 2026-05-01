@@ -1,16 +1,15 @@
 ﻿using Game.Combat;
-using Game.Core.IdServices;
 using UnityEngine;
 
-namespace Game.Characters.Player.Runtume
+namespace Game.Characters.Player.Runtime
 {
     public sealed class Player : IDamageable
     {
         private readonly Health _health = new();
 
-        public Player(IGlobalServiceId idService)
+        public Player(int id)
         {
-            Id = idService.Next();
+            Id = id;
         }
 
         public int Id { get; }

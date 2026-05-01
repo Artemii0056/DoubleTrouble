@@ -4,29 +4,31 @@ using Game.Characters.Enemy.View;
 using Game.Combat.Targeting;
 using Game.Core.IdServices;
 using UnityEngine;
-using Zenject;
 
 namespace Game.Characters.Enemy
 {
     public sealed class EnemyFactory
     {
-        private readonly DiContainer _container;
         private readonly IGlobalServiceId _idService;
         private readonly EnemyRuntimeStore _enemyStore;
+        private readonly EnemyRuntimePool _runtimePool;
         private readonly EnemyViewStore _viewStore;
+        private readonly EnemyViewPool _viewPool;
         private readonly CombatRegistry _combatRegistry;
 
         public EnemyFactory(
-            DiContainer container,
             IGlobalServiceId idService,
             EnemyRuntimeStore enemyStore,
+            EnemyRuntimePool runtimePool,
             EnemyViewStore viewStore,
+            EnemyViewPool viewPool,
             CombatRegistry combatRegistry)
         {
-            _container = container;
             _idService = idService;
             _enemyStore = enemyStore;
+            _runtimePool = runtimePool;
             _viewStore = viewStore;
+            _viewPool = viewPool;
             _combatRegistry = combatRegistry;
         }
 
@@ -34,15 +36,8 @@ namespace Game.Characters.Enemy
         {
             int id = _idService.Next();
 
-            EnemyRuntime runtime = new EnemyRuntime(id, config, position);
-
-            EnemyView view = _container.InstantiatePrefabForComponent<EnemyView>(
-                config.Prefab,
-                position,
-                Quaternion.identity,
-                null);
-
-            view.Init(id);
+            EnemyRuntime runtime = _runtimePool.Spawn(id, config, position);
+            EnemyView view = _viewPool.Spawn(config.Prefab, id, position);
 
             EnemyAimTarget aimTarget = view.GetComponentInChildren<EnemyAimTarget>();
 

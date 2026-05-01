@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.Projectiles.Runtime;
+using Game.Projectiles.View;
 using UnityEngine;
 
 namespace Game.Projectiles.Effects

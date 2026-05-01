@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Characters.Player.Scripts
+namespace Game.Characters.Player.View
 {
     public interface IPlayerTransform
     {
